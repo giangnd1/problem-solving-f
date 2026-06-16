@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>100 Khái niệm Nền tảng về Giải quyết Vấn đề</title>
+<style>
+  :root{
+    --paper:#FBF7EF;
+    --paper-2:#F3ECE0;
+    --ink:#2C2A28;
+    --ink-soft:#6B645C;
+    --line:#E4DCCC;
+    --card:#FFFFFF;
+    --accent:#2D6CA0;
+    --ring: rgba(45,108,160,.30);
+
+    --c1:#3F6FA8;  /* Định khung vấn đề */
+    --c2:#4F9B6E;  /* Phân tích & Phân rã */
+    --c3:#C25E7C;  /* Tìm nguyên nhân gốc */
+    --c4:#D08A3E;  /* Sáng tạo & Ý tưởng */
+    --c5:#8A6BB0;  /* Chiến lược & Heuristics */
+    --c6:#3F9C95;  /* Ra quyết định & Đánh giá */
+    --c7:#7A6A53;  /* Mô hình tư duy nền tảng */
+    --c8:#B0524A;  /* Tư duy phản biện & Thiên kiến */
+    --c9:#5B6BB8;  /* Thử nghiệm & Lặp */
+    --c10:#C49A2E; /* Triển khai & Hợp tác */
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{background:var(--paper); color:var(--ink); font-family:Georgia, "Times New Roman", serif;}
+  body{
+    font-family: "Iowan Old Style","Palatino Linotype", Georgia, serif;
+    line-height:1.5;
+    padding-bottom:60px;
+  }
+  .sans{font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;}
+
+  header{
+    padding:48px 24px 28px;
+    max-width:1080px;
+    margin:0 auto;
+    border-bottom:1px solid var(--line);
+  }
+  .eyebrow{
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    font-size:11px;
+    color:var(--accent);
+    font-weight:700;
+    margin-bottom:14px;
+  }
+  h1{
+    font-size:clamp(34px, 6vw, 58px);
+    font-weight:700;
+    letter-spacing:-0.01em;
+    line-height:1.08;
+  }
+  h1 em{ color:var(--accent); font-style:italic; }
+  .subtitle{
+    margin-top:14px;
+    max-width:680px;
+    color:var(--ink-soft);
+    font-size:16px;
+  }
+  .quote{
+    margin-top:18px;
+    max-width:680px;
+    font-style:italic;
+    color:var(--ink-soft);
+    font-size:14.5px;
+    border-left:3px solid var(--accent);
+    padding-left:14px;
+  }
+
+  .controls{
+    max-width:1080px;
+    margin:28px auto 0;
+    padding:0 24px;
+  }
+  .search-wrap{
+    position:relative;
+    margin-bottom:18px;
+  }
+  #search{
+    width:100%;
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+    font-size:16px;
+    padding:14px 18px 14px 44px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:var(--card);
+    color:var(--ink);
+    outline:none;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  #search:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 4px var(--ring);
+  }
+  .search-icon{
+    position:absolute; left:16px; top:50%; transform:translateY(-50%);
+    width:16px; height:16px; color:var(--ink-soft);
+  }
+  .chips{
+    display:flex; flex-wrap:wrap; gap:8px;
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+  }
+  .chip{
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--ink-soft);
+    font-size:13px;
+    font-weight:600;
+    padding:7px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition: all .15s;
+    display:flex; align-items:center; gap:6px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .chip .dot{ width:8px; height:8px; border-radius:50%; background:var(--dotcolor, var(--ink-soft)); }
+  .chip:hover{ border-color:var(--ink-soft); color:var(--ink); }
+  .chip.active{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+  .chip.active .dot{ background: var(--paper); }
+
+  .count-row{
+    max-width:1080px; margin:18px auto 0; padding:0 24px;
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+    font-size:13px; color:var(--ink-soft);
+  }
+
+  .grid{
+    max-width:1080px;
+    margin:18px auto 0;
+    padding:0 24px;
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap:14px;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:18px;
+    cursor:pointer;
+    text-align:left;
+    font-family: inherit;
+    color:inherit;
+    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    display:flex; flex-direction:column; gap:10px;
+    min-height:140px;
+  }
+  .card:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -16px rgba(0,0,0,.35);
+    border-color: var(--cardcolor);
+  }
+  .card:focus-visible{
+    outline:none;
+    box-shadow: 0 0 0 3px var(--ring);
+    border-color: var(--accent);
+  }
+  .card-top{
+    display:flex; align-items:center; justify-content:space-between;
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+  }
+  .num{
+    font-size:11px; font-weight:700; letter-spacing:.1em;
+    color: var(--cardcolor);
+  }
+  .cat-tag{
+    font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color: var(--cardcolor);
+    background: color-mix(in srgb, var(--cardcolor) 14%, white);
+    padding:3px 8px; border-radius:6px;
+  }
+  .card h3{
+    font-size:18px; font-weight:700; line-height:1.3;
+  }
+  .card h3 .en{
+    display:block; font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+    font-size:12px; font-weight:600; color:var(--ink-soft); margin-top:3px; letter-spacing:.02em;
+  }
+  .card p{
+    font-size:13.5px; color:var(--ink-soft);
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+    flex-grow:1;
+  }
+  .card .read{
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+    font-size:12px; font-weight:700; color:var(--cardcolor);
+    display:flex; align-items:center; gap:5px;
+  }
+  .card .read svg{ width:12px; height:12px; transition: transform .15s; }
+  .card:hover .read svg{ transform: translateX(3px); }
+
+  .no-results{
+    max-width:1080px; margin:40px auto; padding:0 24px;
+    text-align:center; color:var(--ink-soft);
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+    display:none;
+  }
+
+  .overlay{
+    position:fixed; inset:0; background:rgba(44,42,40,.45);
+    display:none; align-items:flex-start; justify-content:center;
+    padding:5vh 16px; z-index:100; overflow-y:auto;
+    backdrop-filter: blur(2px);
+  }
+  .overlay.open{ display:flex; }
+  .modal{
+    background:var(--paper);
+    border-radius:16px;
+    max-width:680px; width:100%;
+    margin-top:0;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,.4);
+    border:1px solid var(--line);
+    overflow:hidden;
+    animation: pop .18s ease;
+  }
+  @keyframes pop{ from{ opacity:0; transform: translateY(10px) scale(.98);} to{opacity:1; transform:none;} }
+
+  .modal-head{
+    padding:28px 28px 20px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--modalcolor) 10%, var(--paper)), var(--paper));
+  }
+  .modal-eyebrow{
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+    font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+    color: var(--modalcolor);
+    margin-bottom:10px;
+  }
+  .modal-head h2{
+    font-size: clamp(24px,4vw,32px);
+    line-height:1.2;
+  }
+  .modal-head .en{
+    display:block; margin-top:6px;
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+    font-size:14px; font-weight:600; color:var(--ink-soft);
+  }
+  .modal-close{
+    position:absolute; top:20px; right:20px;
+    width:34px; height:34px; border-radius:50%;
+    border:1px solid var(--line); background:var(--card);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--ink-soft);
+    transition: all .15s;
+  }
+  .modal-close:hover{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+
+  .modal-body{ padding:24px 28px 30px; }
+  .modal-section{ margin-bottom:22px; }
+  .modal-section:last-child{ margin-bottom:0; }
+  .modal-label{
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+    font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+    color: var(--modalcolor);
+    margin-bottom:8px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .modal-label::after{
+    content:""; flex:1; height:1px; background:var(--line);
+  }
+  .modal-section p{
+    font-size:16.5px; color:var(--ink); line-height:1.65;
+  }
+  .example-box{
+    background: color-mix(in srgb, var(--modalcolor) 8%, var(--paper));
+    border-left:3px solid var(--modalcolor);
+    border-radius:8px;
+    padding:14px 16px;
+    font-size:15.5px;
+    line-height:1.6;
+  }
+  .modal-foot{
+    padding:14px 28px 22px;
+    display:flex; gap:8px;
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+  }
+  .nav-btn{
+    flex:1;
+    border:1px solid var(--line);
+    background:var(--card);
+    border-radius:10px;
+    padding:11px;
+    font-size:13px; font-weight:700;
+    color:var(--ink);
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    transition: all .15s;
+  }
+  .nav-btn:hover{ border-color:var(--ink); }
+  .nav-btn svg{ width:14px; height:14px; }
+
+  footer{
+    max-width:1080px; margin:50px auto 0; padding:24px 24px 0;
+    border-top:1px solid var(--line);
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+    font-size:12.5px; color:var(--ink-soft); text-align:center;
+  }
+
+  @media (max-width:560px){
+    header{padding:36px 18px 22px;}
+    .controls, .grid, .count-row, footer{padding-left:18px; padding-right:18px;}
+    .grid{grid-template-columns: 1fr;}
+    .modal-head{padding:22px 20px 16px;}
+    .modal-body{padding:20px 20px 24px;}
+    .modal-foot{padding:10px 20px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow sans">Bộ công cụ tư duy · 100 khái niệm nền tảng</div>
+  <h1>Tinh tuý <em>Giải quyết Vấn đề</em></h1>
+  <p class="subtitle">100 khái niệm cốt lõi về giải quyết vấn đề — từ định khung, phân rã, tìm nguyên nhân gốc, sáng tạo ý tưởng, đến ra quyết định, thử nghiệm và triển khai — tích hợp các mô hình tư duy (mental models) liên quan trực tiếp đến quá trình giải quyết vấn đề. Mỗi khái niệm kèm diễn giải dễ hiểu và ví dụ thực tế. Gõ để tìm, hoặc lọc theo nhóm.</p>
+  <p class="quote">"Nếu tôi có một giờ để giải quyết một vấn đề, tôi sẽ dành 55 phút để suy nghĩ về vấn đề và 5 phút để suy nghĩ về giải pháp." — tinh thần thường được gán cho Einstein</p>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="search" placeholder="Tìm khái niệm... (ví dụ: 5 whys, MECE, làm ngược)" autocomplete="off">
+  </div>
+  <div class="chips" id="chips"></div>
+</div>
+
+<div class="count-row" id="countRow"></div>
+
+<div class="grid" id="grid"></div>
+<div class="no-results" id="noResults">Không tìm thấy khái niệm phù hợp. Hãy thử một từ khoá khác.</div>
+
+<footer>100 khái niệm nền tảng về Giải quyết Vấn đề · Dùng phím ←/→ hoặc Esc khi xem chi tiết · Lưu trang này để dùng offline</footer>
+
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <div class="modal-eyebrow sans" id="mCat"></div>
+      <h2 id="mName"></h2>
+      <span class="en" id="mEn"></span>
+      <div class="modal-close" id="mClose" tabindex="0" aria-label="Đóng">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-label">Diễn giải</div>
+        <p id="mDetail"></p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-label">Ví dụ thực tế</div>
+        <div class="example-box" id="mExample"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <div class="nav-btn" id="mPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Trước</div>
+      <div class="nav-btn" id="mNext">Sau <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const CATS = [
+  {key:"khung", label:"Định khung vấn đề", color:"var(--c1)"},
+  {key:"phanra", label:"Phân tích & Phân rã", color:"var(--c2)"},
+  {key:"nguyennhan", label:"Tìm nguyên nhân gốc", color:"var(--c3)"},
+  {key:"sangtao", label:"Sáng tạo & Ý tưởng", color:"var(--c4)"},
+  {key:"chienluoc", label:"Chiến lược & Heuristics", color:"var(--c5)"},
+  {key:"raquyetdinh", label:"Ra quyết định & Đánh giá", color:"var(--c6)"},
+  {key:"mohinh", label:"Mô hình tư duy nền tảng", color:"var(--c7)"},
+  {key:"phanbien", label:"Tư duy phản biện & Thiên kiến", color:"var(--c8)"},
+  {key:"thunghiem", label:"Thử nghiệm & Lặp", color:"var(--c9)"},
+  {key:"trienkhai", label:"Triển khai & Hợp tác", color:"var(--c10)"},
+];
+
+const DATA = [
+// ===== 1. ĐỊNH KHUNG VẤN ĐỀ =====
+{cat:"khung", vi:"Định khung vấn đề", en:"Problem Framing", short:"Cách bạn \"đặt tên\" và mô tả một vấn đề sẽ quyết định luôn cả tập hợp giải pháp mà bạn có thể nhìn thấy.",
+ detail:"Trước khi tìm giải pháp, cách vấn đề được diễn đạt (khung tư duy) đã âm thầm giới hạn không gian giải pháp. Một khung hẹp (\"làm sao để X làm việc nhanh hơn\") chỉ cho ra các giải pháp tăng tốc X; một khung rộng hơn (\"làm sao để giảm thời gian chờ đợi của khách hàng\") mở ra nhiều hướng khác — kể cả những hướng không liên quan đến X. Khung sai là nguyên nhân phổ biến nhất của việc giải sai vấn đề.",
+ example:"Một thang máy trong tòa nhà bị phàn nàn là \"chậm\". Nếu định khung là \"làm sao để thang máy chạy nhanh hơn\", giải pháp sẽ là nâng cấp động cơ — đắt và mất thời gian. Nhưng nếu định khung lại thành \"làm sao để người chờ thấy thời gian chờ ngắn hơn\", giải pháp đơn giản là lắp gương ở khu vực chờ — người ta bận ngắm mình nên ít để ý thời gian, và khiếu nại giảm hẳn."},
+
+{cat:"khung", vi:"Phát biểu vấn đề", en:"Problem Statement", short:"Một câu mô tả rõ ràng, cụ thể về vấn đề — bao gồm hiện trạng, mong muốn, và vì sao khoảng cách đó quan trọng — làm điểm khởi đầu chung cho mọi người liên quan.",
+ detail:"Một phát biểu vấn đề tốt trả lời được: ai đang gặp vấn đề gì, ở đâu/khi nào nó xảy ra, và vì sao nó đáng được giải quyết ngay. Nếu thiếu bước này, các thành viên trong nhóm thường mỗi người tưởng tượng một \"vấn đề\" khác nhau, dẫn đến tranh luận về giải pháp trong khi thực ra họ đang giải những vấn đề khác nhau.",
+ example:"So sánh hai cách viết: \"Website của chúng ta tệ\" (mơ hồ, không ai biết bắt đầu từ đâu) so với \"Tỷ lệ khách bỏ giỏ hàng ở trang thanh toán tăng từ 20% lên 45% trong 2 tuần qua, gây thiệt hại ước tính 500 triệu/tháng\" — phát biểu thứ hai cho biết chính xác cần nhìn vào đâu và mức độ ưu tiên ra sao."},
+
+{cat:"khung", vi:"Phân tích khoảng cách", en:"Gap Analysis", short:"So sánh rõ ràng giữa \"hiện trạng\" và \"trạng thái mong muốn\" — chính khoảng cách giữa hai điểm này mới là vấn đề thực sự cần giải quyết.",
+ detail:"Nhiều cuộc thảo luận về vấn đề bị lẫn lộn vì mọi người nói về hiện trạng hoặc mong muốn mà không làm rõ cả hai. Khi cả hai điểm được mô tả cụ thể (bằng số liệu nếu có thể), khoảng cách giữa chúng tự nhiên trở thành mục tiêu — và độ lớn của khoảng cách cũng cho biết mức độ ưu tiên của vấn đề.",
+ example:"Một nhóm bán hàng đang đạt doanh số 800 triệu/tháng (hiện trạng) với mục tiêu 1,2 tỷ/tháng (mong muốn) — khoảng cách 400 triệu chính là \"vấn đề\" cần giải, và việc định lượng nó giúp nhóm đánh giá xem các giải pháp đề xuất (thêm nhân sự, đổi kênh marketing...) có đủ để lấp đầy khoảng cách đó hay không."},
+
+{cat:"khung", vi:"Tái định khung", en:"Reframing", short:"Chủ động thay đổi góc nhìn hoặc cách diễn đạt một vấn đề để mở ra những giải pháp mà khung cũ không cho phép nhìn thấy.",
+ detail:"Khi bế tắc với một vấn đề, thường không phải vì thiếu giải pháp, mà vì khung hiện tại đã loại trừ sẵn những giải pháp tốt nhất. Tái định khung có thể là: đổi chủ thể (từ \"làm sao để tôi...\" thành \"làm sao để họ...\"), đổi mức độ trừu tượng (cụ thể hơn hoặc tổng quát hơn), hoặc đảo ngược mục tiêu (từ \"đạt được X\" thành \"tránh mất Y\").",
+ example:"Một nhà hàng định khung vấn đề là \"làm sao để có thêm khách mới\" và chi rất nhiều cho quảng cáo nhưng ít hiệu quả. Khi tái định khung thành \"làm sao để khách cũ quay lại thường xuyên hơn\", họ nhận ra chỉ cần một chương trình thành viên đơn giản — chi phí thấp hơn nhiều và tác động đến doanh thu lớn hơn quảng cáo."},
+
+{cat:"khung", vi:"Triệu chứng vs vấn đề gốc", en:"Symptom vs Root Problem", short:"Triệu chứng là biểu hiện bề mặt dễ thấy của một vấn đề; vấn đề gốc là nguyên nhân nền tảng tạo ra (và tiếp tục tạo ra) triệu chứng đó.",
+ detail:"Giải quyết triệu chứng thường nhanh và dễ thấy kết quả ngay, nhưng nếu vấn đề gốc còn đó, triệu chứng sẽ quay lại (có thể ở dạng khác). Việc phân biệt hai loại này không phải lúc nào cũng rõ ràng — đôi khi cần đào sâu vài lớp (xem mục \"5 Whys\") để từ một triệu chứng đi đến gốc rễ thực sự.",
+ example:"Một nhân viên thường xuyên đi làm muộn (triệu chứng). Phạt tiền có thể giảm số lần đi muộn trong ngắn hạn, nhưng nếu nguyên nhân gốc là họ đang kiệt sức vì phải chăm con nhỏ một mình vào buổi sáng (vấn đề gốc), phạt tiền chỉ thêm áp lực — và có thể dẫn đến vấn đề khác như giảm hiệu suất hoặc nghỉ việc."},
+
+{cat:"khung", vi:"Xác định phạm vi", en:"Scoping", short:"Quyết định rõ ràng đâu là ranh giới của vấn đề cần giải — phần nào nằm trong phạm vi xử lý, phần nào tạm để ngoài.",
+ detail:"Một vấn đề không có phạm vi rõ ràng có xu hướng \"phình to\" liên tục — mỗi cuộc thảo luận lại kéo thêm những vấn đề liên quan khác vào, khiến nhóm không bao giờ bắt đầu giải quyết được gì. Xác định phạm vi không có nghĩa là phớt lờ các vấn đề khác, mà là tạm \"đóng băng\" chúng để tập trung nguồn lực vào phần có thể tạo ra tiến triển thực sự.",
+ example:"Khi được giao \"cải thiện trải nghiệm khách hàng\", một nhóm có thể bị cuốn vào hàng chục khía cạnh (giao hàng, dịch vụ, sản phẩm, giá, website...). Xác định phạm vi rõ — ví dụ \"chỉ tập trung vào quy trình đổi/trả hàng trong 30 ngày tới\" — giúp nhóm có một điểm bắt đầu cụ thể, thay vì bị tê liệt vì phạm vi quá rộng."},
+
+{cat:"khung", vi:"Ràng buộc", en:"Constraints", short:"Những giới hạn không thể (hoặc rất khó) thay đổi — về thời gian, ngân sách, công nghệ, pháp lý, con người — định hình không gian các giải pháp khả thi.",
+ detail:"Nhận diện ràng buộc sớm giúp tránh lãng phí thời gian vào những giải pháp \"lý tưởng trên giấy\" nhưng không thể triển khai. Tuy nhiên, cần phân biệt ràng buộc THẬT (vật lý, pháp lý) với ràng buộc GIẢ ĐỊNH (\"chúng ta luôn làm thế\", \"sếp sẽ không đồng ý\") — loại thứ hai thường có thể thương lượng hoặc thách thức được.",
+ example:"Một nhóm cần ra mắt sản phẩm trong 2 tháng với ngân sách cố định (ràng buộc thật) — điều này loại bỏ ngay các giải pháp cần xây dựng từ đầu, hướng họ đến các giải pháp tận dụng công cụ có sẵn. Nhưng giả định \"phải có đủ 5 tính năng X, Y, Z, A, B mới ra mắt được\" có thể chỉ là quy ước nội bộ — và việc thách thức giả định này có thể giúp họ ra mắt sớm hơn với 2 tính năng cốt lõi."},
+
+{cat:"khung", vi:"Tiêu chí thành công", en:"Success Criteria", short:"Định nghĩa rõ ràng, có thể đo lường được, về việc \"vấn đề đã được giải quyết\" sẽ trông như thế nào — trước khi bắt đầu tìm giải pháp.",
+ detail:"Không có tiêu chí thành công rõ ràng, một nhóm có thể đề xuất rất nhiều giải pháp \"có vẻ tốt\" nhưng không ai biết khi nào nên dừng, hoặc giải pháp nào thực sự giải quyết được vấn đề ban đầu. Tiêu chí tốt thường cụ thể, đo lường được, và gắn trực tiếp với khoảng cách đã xác định ở bước phân tích khoảng cách.",
+ example:"Thay vì mục tiêu mơ hồ \"giảm thời gian phản hồi khách hàng\", một tiêu chí thành công rõ ràng là \"thời gian phản hồi trung bình giảm từ 24 giờ xuống dưới 4 giờ trong vòng 1 tháng, đo trên ít nhất 90% các yêu cầu\" — bất kỳ giải pháp nào được đề xuất đều có thể được kiểm tra trực tiếp dựa trên tiêu chí này."},
+
+{cat:"khung", vi:"Các bên liên quan & người sở hữu vấn đề", en:"Stakeholders & Problem Owner", short:"Xác định ai thực sự bị ảnh hưởng bởi vấn đề, ai có quyền quyết định giải pháp, và ai sẽ phải sống với hệ quả — ba vai trò này không phải lúc nào cũng là một người.",
+ detail:"Một giải pháp \"đúng về kỹ thuật\" có thể thất bại hoàn toàn nếu nó bỏ qua lợi ích hoặc quan điểm của một bên liên quan quan trọng. Việc lập bản đồ các bên liên quan từ đầu giúp dự đoán ai sẽ ủng hộ, ai sẽ phản đối, và ai cần được tham khảo ý kiến trước khi giải pháp được hoàn thiện — tránh tình trạng giải pháp tốt bị từ chối vì \"không ai hỏi ý kiến chúng tôi\".",
+ example:"Một giải pháp tự động hóa quy trình nhập liệu được phòng IT thiết kế rất hiệu quả về mặt kỹ thuật, nhưng bị nhân viên kế toán — người thực sự sử dụng hệ thống hằng ngày — phản đối vì nó không tương thích với cách họ kiểm tra chéo dữ liệu. Nếu nhân viên kế toán (bên liên quan thực sự) được tham gia từ đầu, vấn đề này có thể đã được phát hiện và xử lý trước khi triển khai."},
+
+{cat:"khung", vi:"Khung 5W1H", en:"5W1H Framework", short:"Sáu câu hỏi cơ bản — Who, What, When, Where, Why, How (Ai, Cái gì, Khi nào, Ở đâu, Tại sao, Như thế nào) — giúp mô tả một vấn đề toàn diện trước khi tìm giải pháp.",
+ detail:"Khung này hữu ích vì nó buộc người giải quyết vấn đề nhìn từ nhiều góc khác nhau một cách có hệ thống, tránh việc chỉ tập trung vào một khía cạnh (thường là \"How\" — làm thế nào để sửa) mà bỏ qua các khía cạnh khác có thể chứa thông tin quan trọng (như \"When\" — vấn đề có theo một quy luật thời gian nào không).",
+ example:"Với vấn đề \"đơn hàng bị giao trễ\": Who (ai bị ảnh hưởng — khách VIP hay khách thường?), What (trễ bao lâu, loại đơn nào?), When (có theo mùa, theo ngày trong tuần?), Where (khu vực địa lý nào?), Why (do kho, do vận chuyển, do đặt hàng?), How (quy trình hiện tại diễn ra thế nào?). Trả lời đầy đủ các câu hỏi này thường tự nó đã chỉ ra hướng giải quyết, trước khi cần \"sáng tạo\" gì thêm."},
+
+{cat:"khung", vi:"Vấn đề tốt vs vấn đề tồi", en:"Well-defined vs Ill-defined Problems", short:"Vấn đề \"tốt\" có trạng thái đầu, trạng thái đích và các bước hợp lệ rõ ràng; vấn đề \"tồi\" thì mơ hồ ở một hoặc nhiều yếu tố này — và cần được làm rõ trước khi giải.",
+ detail:"Phần lớn các bài toán trong sách giáo khoa là vấn đề \"tốt\" (well-defined): biết rõ mình đang ở đâu, muốn đến đâu, và những phép biến đổi nào được phép dùng. Nhưng hầu hết vấn đề trong thực tế là \"tồi\" (ill-defined) — mục tiêu mơ hồ, không rõ ràng buộc nào, hoặc không biết \"thành công\" trông như thế nào. Phần lớn công việc giải quyết vấn đề thực tế là biến một vấn đề tồi thành một vấn đề tương đối tốt hơn (qua định khung, phát biểu vấn đề, tiêu chí thành công...) trước khi áp dụng các kỹ thuật giải.",
+ example:"\"Giải phương trình x + 5 = 12\" là vấn đề tốt — rõ điểm bắt đầu, đích, và phép toán hợp lệ. \"Làm sao để công ty 'đổi mới' hơn\" là vấn đề tồi — không rõ \"đổi mới\" nghĩa là gì, không có tiêu chí đo, không rõ bước nào được phép. Phần lớn thời gian của một nhà tư vấn chiến lược thực ra là biến loại vấn đề thứ hai thành những câu hỏi cụ thể, đo được, gần với loại thứ nhất hơn."},
+
+// ===== 2. PHÂN TÍCH & PHÂN RÃ =====
+{cat:"phanra", vi:"Phân rã vấn đề", en:"Decomposition", short:"Chia một vấn đề lớn, phức tạp thành các phần nhỏ hơn, dễ quản lý và giải quyết riêng lẻ hơn.",
+ detail:"Một vấn đề lớn thường gây cảm giác choáng ngợp không phải vì nó \"khó\" về bản chất, mà vì nó chứa quá nhiều yếu tố cùng lúc để xử lý trong đầu. Phân rã không làm vấn đề biến mất, nhưng biến nó thành một tập hợp các vấn đề con — mỗi vấn đề con thường dễ giải hơn nhiều, và một số có thể được giải song song hoặc bởi những người khác nhau.",
+ example:"\"Tổ chức một hội nghị 500 người\" là một vấn đề khổng lồ nếu nhìn như một khối. Phân rã thành: địa điểm, ăn uống, diễn giả, truyền thông, đăng ký, hậu cần ngày diễn ra — mỗi phần này lại có thể tiếp tục phân rã, và mỗi nhóm nhỏ có thể tập trung vào một phần mà không cần \"giữ\" toàn bộ hội nghị trong đầu cùng lúc."},
+
+{cat:"phanra", vi:"Nguyên tắc MECE", en:"MECE Principle", short:"Khi chia một vấn đề thành các phần, các phần đó nên \"loại trừ lẫn nhau\" (không chồng chéo) và \"đầy đủ tập hợp\" (không bỏ sót gì).",
+ detail:"MECE (Mutually Exclusive, Collectively Exhaustive) là tiêu chuẩn cho một cách phân loại/phân rã \"tốt\". Nếu các phần chồng chéo, công sức có thể bị lãng phí vào việc giải quyết cùng một thứ hai lần (hoặc gây nhầm lẫn về việc ai chịu trách nhiệm phần nào). Nếu thiếu sót, một phần quan trọng của vấn đề có thể bị bỏ qua hoàn toàn mà không ai nhận ra.",
+ example:"Phân loại \"lý do khách hàng rời bỏ dịch vụ\" thành \"giá cao\", \"dịch vụ kém\", và \"chuyển sang đối thủ\" không đạt MECE — vì \"chuyển sang đối thủ\" có thể VÌ \"giá cao\" hoặc \"dịch vụ kém\" (chồng chéo), và bỏ sót lý do như \"không còn nhu cầu\" (thiếu sót). Một cách phân loại MECE hơn: \"do yếu tố từ phía công ty\" vs \"do yếu tố từ phía khách hàng\" — hai nhóm không chồng lấp và cùng nhau bao trùm mọi khả năng."},
+
+{cat:"phanra", vi:"Cây vấn đề / Cây logic", en:"Issue Tree", short:"Một sơ đồ phân cấp thể hiện vấn đề chính ở gốc, và các vấn đề con/nguyên nhân/giải pháp tiềm năng được phân nhánh ra theo từng lớp.",
+ detail:"Cây vấn đề kết hợp phân rã với tư duy MECE: mỗi nút cha được chia thành các nhánh con loại trừ-đầy đủ, và quá trình này được lặp lại ở mỗi cấp cho đến khi đạt được các nhánh đủ nhỏ và cụ thể để có thể hành động trực tiếp. Công cụ này đặc biệt phổ biến trong tư vấn chiến lược vì nó biến một câu hỏi lớn, mơ hồ thành một bản đồ các câu hỏi nhỏ, cụ thể.",
+ example:"Câu hỏi gốc \"Làm sao tăng lợi nhuận?\" có thể chia thành hai nhánh MECE: \"Tăng doanh thu\" và \"Giảm chi phí\". Nhánh \"Tăng doanh thu\" lại chia tiếp thành \"Tăng số lượng khách hàng\" và \"Tăng giá trị mỗi khách hàng\"... Quá trình này tiếp tục đến khi mỗi nhánh lá là một hành động cụ thể có thể đánh giá và thực hiện được, như \"chạy chương trình giới thiệu bạn bè\"."},
+
+{cat:"phanra", vi:"Chia để trị", en:"Divide and Conquer", short:"Giải quyết các phần nhỏ của vấn đề một cách độc lập, sau đó kết hợp các kết quả lại để có giải pháp cho toàn bộ vấn đề.",
+ detail:"Khác với phân rã đơn thuần (chỉ là việc \"chia\"), chia-để-trị nhấn mạnh cả hai bước: chia VÀ kết hợp lại. Chiến lược này hiệu quả nhất khi các phần con tương đối độc lập với nhau (giải quyết phần này không ảnh hưởng nhiều đến phần khác) và khi việc kết hợp các giải pháp con không quá phức tạp.",
+ example:"Để dịch một cuốn sách 300 trang sang ngôn ngữ khác, một nhóm chia sách thành 10 chương, mỗi dịch giả dịch độc lập 1-2 chương (chia), sau đó một biên tập viên đọc lại toàn bộ để đảm bảo văn phong và thuật ngữ nhất quán giữa các chương (trị/kết hợp) — nhanh hơn rất nhiều so với một người dịch toàn bộ, miễn là bước kết hợp được thực hiện cẩn thận."},
+
+{cat:"phanra", vi:"Trừu tượng hóa", en:"Abstraction", short:"Tạm thời bỏ qua các chi tiết cụ thể để nhìn thấy cấu trúc, mẫu hình hoặc nguyên lý chung bên dưới — giúp nhận ra vấn đề này thực chất giống một vấn đề khác đã biết cách giải.",
+ detail:"Trừu tượng hóa là việc \"lùi lại\" để nhìn vấn đề ở một mức độ tổng quát hơn — bỏ qua những đặc điểm \"bề mặt\" (tên gọi, ngành nghề, con số cụ thể) để thấy cấu trúc \"bên dưới\" (loại quan hệ, loại ràng buộc, loại đánh đổi). Khi hai vấn đề có cấu trúc trừu tượng giống nhau, giải pháp cho vấn đề này thường có thể chuyển hóa để áp dụng cho vấn đề kia.",
+ example:"\"Phân chia ngân sách marketing giữa các kênh\" và \"phân chia thời gian học giữa các môn thi\" trông hoàn toàn khác nhau ở bề mặt (tiền vs thời gian, marketing vs học tập), nhưng ở mức trừu tượng, cả hai đều là \"bài toán phân bổ nguồn lực có hạn giữa các lựa chọn với lợi suất giảm dần\" — và có thể dùng cùng một loại công cụ (như phân tích biên) để giải."},
+
+{cat:"phanra", vi:"Nhận dạng mẫu", en:"Pattern Recognition", short:"Nhận ra rằng tình huống hiện tại có cấu trúc tương tự với những tình huống đã gặp trước đây — cho phép áp dụng kinh nghiệm cũ vào vấn đề mới.",
+ detail:"Phần lớn \"chuyên môn\" (expertise) thực chất là một thư viện lớn các mẫu hình đã được học qua kinh nghiệm — một chuyên gia không \"thông minh hơn\" người mới ở mọi khoảnh khắc, mà thường chỉ nhận ra nhanh hơn \"đây là loại tình huống nào\" và do đó biết ngay nên thử hướng nào trước. Tuy nhiên, nhận dạng mẫu cũng có thể gây sai lầm khi áp dụng một mẫu quen thuộc cho một tình huống chỉ GIỐNG bề ngoài nhưng khác về bản chất.",
+ example:"Một bác sĩ giàu kinh nghiệm có thể chẩn đoán một ca bệnh trong vài phút nhờ nhận ra một tổ hợp triệu chứng \"quen\" mà họ đã gặp hàng trăm lần — trong khi một bác sĩ mới ra trường phải lần lượt kiểm tra từng khả năng theo quy trình. Nhưng nếu ca bệnh thực ra là một biến thể hiếm, mẫu \"quen\" của bác sĩ kinh nghiệm có thể dẫn đến chẩn đoán sai nếu họ không cẩn trọng kiểm tra lại."},
+
+{cat:"phanra", vi:"Sơ đồ vòng lặp nhân quả", en:"Causal Loop Diagram", short:"Một cách vẽ ra các yếu tố trong một vấn đề và mũi tên thể hiện chúng ảnh hưởng đến nhau như thế nào — giúp thấy được các vòng lặp đang \"nuôi\" vấn đề.",
+ detail:"Nhiều vấn đề dai dẳng không phải do một nguyên nhân đơn lẻ, mà do một vòng lặp tự củng cố (A làm tăng B, B lại làm tăng A) hoặc một vòng lặp cân bằng đang bị bỏ qua. Vẽ sơ đồ này ra giấy — thay vì chỉ nghĩ trong đầu — thường giúp phát hiện những kết nối mà tư duy tuyến tính thông thường bỏ lỡ, đặc biệt là các \"điểm can thiệp\" hiệu quả nằm ở giữa vòng lặp.",
+ example:"Một cửa hàng nhận thấy doanh số giảm nên cắt giảm số nhân viên để giảm chi phí. Ít nhân viên hơn → thời gian chờ của khách tăng → trải nghiệm kém hơn → khách ít quay lại hơn → doanh số tiếp tục giảm → lại cắt thêm nhân viên. Vẽ vòng lặp này ra cho thấy \"cắt nhân viên\" — giải pháp có vẻ hợp lý ban đầu — thực ra đang nuôi chính vấn đề mà nó định giải quyết."},
+
+{cat:"phanra", vi:"Phân tích đầu vào - quy trình - đầu ra", en:"Input-Process-Output (IPO) Analysis", short:"Nhìn một hệ thống hoặc quy trình như ba phần: những gì đi vào, những gì xảy ra ở giữa, và những gì đi ra — để xác định vấn đề đang nằm ở phần nào.",
+ detail:"Một kết quả đầu ra không như mong đợi có thể do: đầu vào kém (dữ liệu/nguyên liệu/thông tin sai hoặc thiếu), quy trình kém (cách xử lý có lỗi hoặc kém hiệu quả), hoặc cả hai. Phân biệt rõ ba phần này giúp tránh tình trạng \"sửa quy trình\" trong khi vấn đề thực ra nằm ở đầu vào (hoặc ngược lại) — một sai lầm rất phổ biến.",
+ example:"Một bộ phận chăm sóc khách hàng bị đánh giá thấp về \"chất lượng phản hồi\" (đầu ra kém). Trước khi đào tạo lại nhân viên (can thiệp vào quy trình), kiểm tra đầu vào cho thấy: thông tin sản phẩm mà nhân viên được cung cấp đã lỗi thời 6 tháng — vấn đề thực sự nằm ở đầu vào (dữ liệu sai), không phải ở năng lực xử lý của nhân viên."},
+
+{cat:"phanra", vi:"Phân tích điểm nghẽn", en:"Bottleneck Analysis", short:"Trong một quy trình gồm nhiều bước, xác định bước nào đang giới hạn tốc độ/năng suất của TOÀN BỘ quy trình — đó là nơi đáng để tập trung cải thiện nhất.",
+ detail:"Cải thiện một bước không phải điểm nghẽn thường tạo ra rất ít (hoặc không có) thay đổi cho kết quả tổng thể — vì kết quả tổng thể bị \"khóa\" ở mức của điểm nghẽn. Việc xác định đúng điểm nghẽn (thường không phải bước \"trông có vẻ\" chậm nhất, mà là bước thực sự giới hạn dòng chảy) là bước đầu tiên quan trọng trước khi đầu tư nguồn lực cải tiến.",
+ example:"Một quy trình tuyển dụng có 5 bước: nộp đơn → sàng lọc CV → phỏng vấn vòng 1 → phỏng vấn vòng 2 → ký hợp đồng. Nếu \"phỏng vấn vòng 2\" chỉ có thể thực hiện 2 buổi/tuần do lịch của 1 lãnh đạo cấp cao bận, thì dù các bước khác có nhanh đến đâu, tổng thời gian tuyển một người vẫn bị giới hạn bởi bước này — đó là điểm nghẽn cần xử lý trước (ví dụ: thêm người phỏng vấn vòng 2, hoặc gộp vòng 1-2)."},
+
+{cat:"phanra", vi:"Thay đổi cấp độ phân tích", en:"Level of Analysis Shift", short:"Một vấn đề có thể được nhìn ở nhiều \"cấp độ\" khác nhau (cá nhân, nhóm, hệ thống, xã hội) — và đôi khi lời giải nằm ở một cấp độ khác với cấp độ vấn đề được phát hiện.",
+ detail:"Một hiện tượng được quan sát ở một cấp độ (ví dụ: \"nhân viên A làm việc kém\") có thể có nguyên nhân ở một cấp độ khác (ví dụ: \"hệ thống phân công việc đang đặt A vào vai trò không phù hợp\"). Nếu chỉ can thiệp ở đúng cấp độ quan sát ban đầu (kỷ luật/đào tạo A), vấn đề có thể lặp lại với người khác ở vị trí đó — vì nguyên nhân thực sự nằm ở cấp độ hệ thống.",
+ example:"Một trường học thấy \"học sinh lớp 9A có điểm thấp\" (cấp độ nhóm) và định thay giáo viên (can thiệp ở cấp độ cá nhân giáo viên). Nhưng khi nhìn ở cấp độ hệ thống, hóa ra lớp 9A luôn được xếp vào tiết học cuối ngày, sau giờ ăn trưa muộn — vấn đề nằm ở cấp độ lịch học (hệ thống), không phải ở giáo viên hay học sinh cụ thể."},
+
+// ===== 3. TÌM NGUYÊN NHÂN GỐC =====
+{cat:"nguyennhan", vi:"Phân tích nguyên nhân gốc", en:"Root Cause Analysis (RCA)", short:"Một họ các kỹ thuật nhằm tìm ra nguyên nhân SÂU NHẤT của một vấn đề, thay vì chỉ xử lý các nguyên nhân bề mặt hoặc triệu chứng.",
+ detail:"RCA dựa trên giả định rằng hầu hết vấn đề có một (hoặc một vài) nguyên nhân gốc, và nếu xử lý đúng nguyên nhân đó, vấn đề sẽ không tái diễn — trong khi xử lý các nguyên nhân bề mặt chỉ mang lại cải thiện tạm thời. Các kỹ thuật RCA phổ biến (5 Whys, biểu đồ xương cá, cây lỗi...) khác nhau về hình thức nhưng chung mục tiêu: đào sâu từ \"cái gì đã xảy ra\" đến \"vì sao nó có thể xảy ra\".",
+ example:"Sàn nhà máy bị trơn dầu (vấn đề bề mặt) → lau dầu là xử lý bề mặt. RCA đào sâu hơn: dầu rò từ máy → vì sao rò? vòng đệm hỏng → vì sao hỏng? quá hạn thay → vì sao quá hạn? không có lịch bảo trì định kỳ → ĐÂY là nguyên nhân gốc. Lập lịch bảo trì định kỳ giải quyết không chỉ vụ rò này, mà ngăn cả những vụ tương tự trong tương lai."},
+
+{cat:"nguyennhan", vi:"Kỹ thuật 5 Whys", en:"5 Whys", short:"Liên tục hỏi \"Tại sao?\" (thường khoảng 5 lần) cho mỗi câu trả lời nhận được, để đi từ một triệu chứng đến nguyên nhân gốc.",
+ detail:"Con số \"5\" không phải là một quy tắc cứng — đó là một gợi ý rằng cần đào đủ sâu, vì 1-2 lần hỏi \"tại sao\" thường chỉ chạm đến nguyên nhân bề mặt. Kỹ thuật này đơn giản đến mức có thể làm một mình trên giấy, nhưng hiệu quả phụ thuộc vào việc trả lời trung thực và dựa trên dữ kiện thực tế ở mỗi bước, không phải suy đoán hoặc đổ lỗi.",
+ example:"\"Báo cáo nộp trễ.\" Tại sao? \"Vì số liệu chưa có.\" Tại sao? \"Vì phòng kế toán gửi muộn.\" Tại sao? \"Vì họ đang chờ xác nhận từ ngân hàng.\" Tại sao? \"Vì quy trình xác nhận của ngân hàng mất 3 ngày.\" Tại sao việc này lại ảnh hưởng đến báo cáo? \"Vì lịch nộp báo cáo không tính đến thời gian xác nhận 3 ngày đó.\" — nguyên nhân gốc là LỊCH TRÌNH không khớp với một ràng buộc bên ngoài, không phải \"ai đó làm việc chậm\"."},
+
+{cat:"nguyennhan", vi:"Biểu đồ xương cá (Ishikawa)", en:"Fishbone Diagram", short:"Một sơ đồ hình xương cá giúp liệt kê có hệ thống các NHÓM nguyên nhân có thể (con người, quy trình, công cụ, môi trường...) dẫn đến một vấn đề.",
+ detail:"Khác với 5 Whys (đào sâu theo một hướng), biểu đồ xương cá mở RỘNG theo chiều ngang trước — liệt kê nhiều nhóm nguyên nhân khả năng cùng lúc, sau đó với mỗi nhóm có thể tiếp tục hỏi \"tại sao\" để đào sâu. Cách này hữu ích khi vấn đề có thể xuất phát từ nhiều hướng khác nhau và nhóm muốn đảm bảo không bỏ sót một nhóm nguyên nhân lớn nào.",
+ example:"Với vấn đề \"sản phẩm bị lỗi tăng đột biến\", các \"xương\" chính có thể là: Con người (nhân viên mới chưa được đào tạo?), Máy móc (thiết bị xuống cấp?), Phương pháp (quy trình thay đổi gần đây?), Vật liệu (nhà cung cấp mới?), Môi trường (nhiệt độ/độ ẩm nhà xưởng thay đổi theo mùa?). Việc rà soát từng nhóm có thể phát hiện ra nguyên nhân nằm ở một nhóm mà ban đầu không ai nghĩ tới, ví dụ thay đổi nhà cung cấp vật liệu."},
+
+{cat:"nguyennhan", vi:"Cây lỗi", en:"Fault Tree Analysis", short:"Bắt đầu từ một sự cố cụ thể đã xảy ra (đỉnh cây) và đi NGƯỢC xuống, liệt kê tất cả các tổ hợp điều kiện/lỗi nhỏ hơn có thể dẫn đến sự cố đó.",
+ detail:"Khác với biểu đồ xương cá (thường mang tính định tính, brainstorm), cây lỗi thường dùng logic AND/OR rõ ràng: \"sự cố X xảy ra NẾU (lỗi A VÀ lỗi B) HOẶC (lỗi C)\". Cách tiếp cận này phổ biến trong các hệ thống có độ an toàn cao (hàng không, y tế, hạt nhân) vì nó giúp định lượng được: cần BAO NHIÊU lỗi xảy ra ĐỒNG THỜI để có sự cố — từ đó biết nên thêm lớp bảo vệ ở đâu.",
+ example:"\"Máy chủ bị sập\" (đỉnh) có thể xảy ra NẾU (mất điện VÀ máy phát dự phòng không hoạt động) HOẶC (lỗi phần mềm nghiêm trọng). Phân tích này cho thấy: chỉ \"mất điện\" thôi không gây sập (vì có máy phát dự phòng) — sự cố chỉ xảy ra khi CẢ HAI điều kiện cùng thất bại. Điều này hướng sự chú ý đến việc kiểm tra máy phát dự phòng thường xuyên hơn, vì đó là \"lớp bảo vệ cuối\" trong tình huống mất điện."},
+
+{cat:"nguyennhan", vi:"Tương quan không phải nhân quả", en:"Correlation vs Causation", short:"Hai yếu tố cùng thay đổi theo nhau không có nghĩa là một gây ra cái kia — nhầm lẫn điều này khiến việc \"sửa\" một yếu tố không giải quyết được vấn đề ở yếu tố kia.",
+ detail:"Trong quá trình tìm nguyên nhân, dữ liệu thường cho thấy nhiều thứ \"đi cùng nhau\" với vấn đề — nhưng không phải tất cả đều là nguyên nhân. Có thể có một biến thứ ba (biến gây nhiễu) tác động đến cả hai, hoặc thứ tự nhân-quả bị đảo ngược (B gây ra A, không phải A gây ra B). Nếu \"sửa\" một yếu tố chỉ tương quan (không phải nguyên nhân thực), vấn đề vẫn tiếp diễn dù chỉ số tương quan đó đã thay đổi.",
+ example:"Một công ty thấy \"nhân viên làm thêm giờ nhiều\" tương quan với \"hiệu suất nhóm thấp\", và kết luận làm thêm giờ gây giảm hiệu suất nên cấm làm thêm giờ — nhưng hiệu suất không cải thiện. Thực ra cả hai đều là HỆ QUẢ của một nguyên nhân thứ ba: quy trình làm việc kém hiệu quả khiến nhóm vừa phải làm thêm giờ VÀ vẫn có hiệu suất thấp. Cấm làm thêm giờ không xử lý nguyên nhân gốc, chỉ làm nhóm thêm áp lực."},
+
+{cat:"nguyennhan", vi:"Biến gây nhiễu", en:"Confounding Variable", short:"Một yếu tố thứ ba, thường bị bỏ qua, có ảnh hưởng đến cả \"nguyên nhân nghi ngờ\" và \"kết quả quan sát\" — khiến chúng có vẻ liên quan trực tiếp dù không phải vậy.",
+ detail:"Biến gây nhiễu là \"kẻ giấu mặt\" phổ biến nhất trong các kết luận sai về nguyên nhân. Để phát hiện nó, một câu hỏi hữu ích là: \"Có yếu tố nào khác thay đổi CÙNG LÚC với 'nguyên nhân nghi ngờ' mà cũng có thể ảnh hưởng đến kết quả không?\" — nếu có, cần kiểm soát hoặc tách riêng yếu tố đó trước khi kết luận về nhân quả.",
+ example:"Dữ liệu cho thấy các cửa hàng \"có nhân viên mặc đồng phục mới\" có doanh số cao hơn, và ai đó kết luận đồng phục mới làm tăng doanh số. Nhưng biến gây nhiễu có thể là: đồng phục mới chỉ được triển khai ở các cửa hàng VỪA ĐƯỢC CẢI TẠO/MỞ RỘNG — và chính việc cải tạo (không phải đồng phục) mới là yếu tố thực sự làm tăng doanh số."},
+
+{cat:"nguyennhan", vi:"Nguyên nhân trực tiếp vs nguyên nhân hệ thống", en:"Proximate vs Systemic Cause", short:"Nguyên nhân trực tiếp là sự kiện/hành động NGAY TRƯỚC kết quả; nguyên nhân hệ thống là điều kiện/cấu trúc cho phép (hoặc khiến) nguyên nhân trực tiếp đó dễ xảy ra.",
+ detail:"Xử lý nguyên nhân trực tiếp thường nhanh và \"giải quyết được vụ này\", nhưng nếu nguyên nhân hệ thống vẫn còn, một nguyên nhân trực tiếp KHÁC sẽ sớm xuất hiện và gây ra vấn đề tương tự. Phân biệt hai loại này giúp quyết định: chỉ cần \"dập lửa\" lần này, hay cần đầu tư vào thay đổi cấu trúc để giảm khả năng \"lửa\" xuất hiện trong tương lai.",
+ example:"Một vụ tai nạn xe máy xảy ra vì \"người lái vượt đèn đỏ\" (nguyên nhân trực tiếp). Nhưng nếu giao lộ đó có tỷ lệ vượt đèn đỏ cao bất thường vì đèn tín hiệu bị che bởi cây, hoặc thời gian đèn vàng quá ngắn so với tốc độ trung bình của xe (nguyên nhân hệ thống) — xử phạt người lái xe này không ngăn được những vụ tương tự ở chính giao lộ đó."},
+
+{cat:"nguyennhan", vi:"A3 Problem Solving", en:"A3 Problem Solving (Toyota)", short:"Một khung giải quyết vấn đề có cấu trúc, gói gọn trên một trang giấy A3, đi từ bối cảnh, hiện trạng, mục tiêu, phân tích nguyên nhân, đến đề xuất và kế hoạch hành động.",
+ detail:"Xuất phát từ Toyota, A3 không phải là một \"công thức thần kỳ\" mà là một KỶ LUẬT trình bày: buộc người giải quyết vấn đề phải tóm tắt từng phần (bối cảnh, hiện trạng bằng dữ liệu/hình ảnh thực tế, mục tiêu rõ ràng, phân tích nguyên nhân gốc, các phương án, kế hoạch và chỉ số theo dõi) đủ ngắn để vừa một trang — sự gọn gàng này buộc phải suy nghĩ rõ ràng và giúp người khác dễ dàng xem xét, góp ý toàn bộ quá trình tư duy chỉ trong vài phút.",
+ example:"Thay vì một bản báo cáo 20 trang về \"vấn đề tỷ lệ lỗi sản phẩm\", một tờ A3 trình bày: ảnh chụp khu vực có lỗi (bối cảnh), biểu đồ tỷ lệ lỗi theo thời gian (hiện trạng), mục tiêu giảm tỷ lệ lỗi xuống dưới 1% (mục tiêu), sơ đồ xương cá rút gọn (nguyên nhân), 3 hành động cụ thể với người chịu trách nhiệm và ngày hoàn thành (kế hoạch) — toàn bộ trên một trang, ai cũng có thể hiểu trong 5 phút."},
+
+{cat:"nguyennhan", vi:"Phân tích Pareto cho nguyên nhân", en:"Pareto Analysis for Causes", short:"Trong số nhiều nguyên nhân có thể, một số ít nguyên nhân thường chiếm phần lớn tổng tác động — xếp hạng và xử lý nhóm này trước mang lại hiệu quả cao nhất.",
+ detail:"Sau khi liệt kê được nhiều nguyên nhân khả năng (qua xương cá, brainstorm...), bước tiếp theo quan trọng là ĐỊNH LƯỢNG: nguyên nhân nào đóng góp bao nhiêu phần trăm vào tổng số trường hợp vấn đề. Áp dụng nguyên lý 80/20, thường chỉ 1-3 nguyên nhân hàng đầu đã chiếm phần lớn — xử lý đúng những nguyên nhân này mang lại hiệu quả vượt xa việc cố gắng xử lý đồng thời mọi nguyên nhân được liệt kê.",
+ example:"Một tổng đài ghi nhận 10 loại lý do khách gọi đến phàn nàn. Khi đếm số lượng từng loại, hóa ra \"không nhận được email xác nhận đơn hàng\" chiếm 60% tổng số cuộc gọi, trong khi 9 lý do còn lại mỗi loại chỉ chiếm vài phần trăm. Sửa một lỗi kỹ thuật ở hệ thống gửi email xác nhận sẽ giảm khối lượng cuộc gọi nhiều hơn việc cải thiện 9 vấn đề nhỏ còn lại cộng lại."},
+
+{cat:"nguyennhan", vi:"Kiểm tra giả định ẩn", en:"Hidden Assumption Audit", short:"Rà soát những điều mọi người ngầm CHO LÀ ĐÚNG khi mô tả/giải quyết vấn đề — vì chính một giả định sai (chưa từng được kiểm tra) có thể là nguyên nhân gốc thực sự.",
+ detail:"Nhiều vấn đề \"khó giải\" thực ra là dễ giải, nhưng bị che khuất bởi một giả định mà mọi người đã chấp nhận từ lâu đến mức không còn ai nhận ra đó LÀ một giả định (chứ không phải một sự thật). Một câu hỏi hữu ích: \"Chúng ta đang coi điều gì là 'hiển nhiên đúng' trong cách mô tả vấn đề này — và điều đó có thực sự đúng không?\"",
+ example:"Một nhóm dành nhiều tháng tìm cách \"làm sao để khách hàng đọc hết bản hướng dẫn sử dụng dài 20 trang\" trước khi dùng sản phẩm — với giả định ẩn rằng \"khách hàng CẦN đọc hướng dẫn trước khi dùng\". Khi giả định này bị thách thức, họ nhận ra: nếu thiết kế sản phẩm đủ trực quan để không cần hướng dẫn (hoặc chỉ cần 1 trang), vấn đề \"làm sao để khách đọc hết 20 trang\" biến mất hoàn toàn — không cần giải nữa."},
+// ===== 4. SÁNG TẠO & Ý TƯỞNG =====
+{cat:"sangtao", vi:"Brainstorming", en:"Brainstorming", short:"Tạo ra số lượng lớn ý tưởng trong một khoảng thời gian ngắn, tạm thời tách rời hoàn toàn việc đánh giá/phản biện khỏi việc tạo ý tưởng.",
+ detail:"Nguyên tắc cốt lõi là tách \"tạo\" và \"đánh giá\" thành hai giai đoạn riêng — vì khi vừa nghĩ vừa tự phê bình, não có xu hướng chặn những ý tưởng \"có vẻ ngớ ngẩn\" trước khi chúng được nói ra, trong khi đôi khi chính những ý tưởng đó (hoặc một biến thể của chúng) lại là lời giải tốt. Số lượng ý tưởng nhiều cũng làm tăng khả năng xuất hiện một vài ý tưởng thực sự mới lạ.",
+ example:"Khi brainstorm cách giảm rác thải nhựa trong văn phòng, quy tắc là viết ra MỌI ý tưởng trong 10 phút, kể cả \"cấm tuyệt đối mọi loại nhựa\" hay \"phát cho mỗi người một bộ dụng cụ ăn riêng có khắc tên\" — không ai được nói \"ý này không khả thi\" trong 10 phút đó. Sau đó mới chuyển sang giai đoạn lọc và phát triển những ý tưởng khả thi nhất."},
+
+{cat:"sangtao", vi:"Tư duy phân kỳ và hội tụ", en:"Divergent vs Convergent Thinking", short:"Tư duy phân kỳ tạo ra NHIỀU khả năng khác nhau; tư duy hội tụ chọn lọc và kết hợp để đi đến MỘT giải pháp — quá trình sáng tạo hiệu quả cần cả hai, theo đúng thứ tự.",
+ detail:"Một lỗi phổ biến là trộn lẫn hai chế độ này — vừa nghĩ ý tưởng mới vừa cố \"chốt\" ngay, dẫn đến rất ít ý tưởng và thường là những ý tưởng \"an toàn\", quen thuộc. Tách rõ hai giai đoạn (phân kỳ trước, hội tụ sau) cho phép không gian ý tưởng được mở rộng đầy đủ trước khi bị thu hẹp lại — và việc thu hẹp dựa trên một tập lựa chọn phong phú hơn nhiều.",
+ example:"Khi thiết kế logo mới, giai đoạn phân kỳ là tạo ra 50 phác thảo khác nhau, kể cả những hướng \"kỳ lạ\" — không đánh giá. Giai đoạn hội tụ là từ 50 phác thảo đó, chọn ra 3 hướng tốt nhất, rồi tiếp tục phân kỳ trong mỗi hướng (biến thể), rồi lại hội tụ — luân chuyển giữa hai chế độ cho đến khi đạt được thiết kế cuối cùng."},
+
+{cat:"sangtao", vi:"Tư duy ngang", en:"Lateral Thinking", short:"Tiếp cận vấn đề từ một góc hoàn toàn KHÔNG TRỰC TIẾP/KHÔNG HIỂN NHIÊN, thay vì đi theo logic từng-bước-một (tư duy theo chiều dọc).",
+ detail:"Thuật ngữ do Edward de Bono đặt ra: tư duy theo chiều dọc (vertical) đào sâu một hướng logic duy nhất, từng bước một, và thường \"đào\" lại đúng cái hố cũ sâu hơn. Tư duy ngang (lateral) chủ động \"nhảy\" sang một cách nhìn khác — không nhất thiết logic ngay từ đầu — để mở ra những con đường mà tư duy dọc không bao giờ chạm tới, vì nó không nằm trên \"đường\" logic ban đầu.",
+ example:"Bài toán cổ điển: làm sao để giao 9 quả bóng vào 4 cái hộp sao cho mỗi hộp có số quả lẻ? Tư duy dọc sẽ thử các tổ hợp số (1,1,1,6 — không lẻ hết; 3,3,3,0 — 0 không lẻ...) và bế tắc. Tư duy ngang đặt câu hỏi khác: \"ai nói các hộp phải tách biệt?\" — đặt 3 hộp nhỏ vào trong 1 hộp lớn, mỗi hộp nhỏ có 3 quả (lẻ), và hộp lớn chứa cả 9 quả (lẻ) — giải được bằng cách thay đổi một giả định không ai nói ra."},
+
+{cat:"sangtao", vi:"SCAMPER", en:"SCAMPER", short:"Một bộ 7 \"động từ kích hoạt\" (Substitute, Combine, Adapt, Modify, Put to other use, Eliminate, Reverse) giúp tạo ra ý tưởng mới bằng cách biến đổi một thứ đã có.",
+ detail:"SCAMPER hữu ích khi bạn đã có MỘT giải pháp/sản phẩm/quy trình hiện tại và muốn tạo ra các biến thể hoặc cải tiến — thay vì brainstorm từ con số không. Mỗi chữ là một \"phép biến đổi\" có thể áp dụng máy móc: Thay thế (Substitute) một phần, Kết hợp (Combine) với thứ khác, Thích ứng (Adapt) cho mục đích khác, Sửa đổi (Modify) quy mô/hình dạng, Dùng cho mục đích khác (Put to other use), Loại bỏ (Eliminate) một phần, hoặc Đảo ngược (Reverse) thứ tự/vai trò.",
+ example:"Áp dụng SCAMPER cho \"chiếc ghế văn phòng\": Substitute (thay khung kim loại bằng tre), Combine (kết hợp ghế với bàn nhỏ gập), Adapt (điều chỉnh cho người khuyết tật), Modify (làm ghế cao hơn cho bàn đứng), Put to other use (ghế gập thành thang nhỏ), Eliminate (bỏ tựa lưng cho ghế tập gym), Reverse (ghế \"ngồi ngược\" hỗ trợ tư thế cúi). Mỗi câu trả lời là một ý tưởng sản phẩm tiềm năng."},
+
+{cat:"sangtao", vi:"Tư duy tương tự / loại suy", en:"Analogical Thinking", short:"Mượn cấu trúc giải pháp từ một lĩnh vực HOÀN TOÀN KHÁC — nơi một vấn đề có cấu trúc tương tự đã được giải — và \"dịch\" giải pháp đó sang lĩnh vực của mình.",
+ detail:"Tư duy tương tự hoạt động tốt nhất khi tìm sự tương đồng về CẤU TRÚC (loại quan hệ, loại ràng buộc) thay vì về BỀ MẶT (cùng ngành, cùng loại sản phẩm) — vì những lĩnh vực \"xa\" thường đã phát triển những giải pháp mà lĩnh vực của bạn chưa từng nghĩ tới, đơn giản vì không ai trong lĩnh vực của bạn từng nhìn sang đó.",
+ example:"Việc thiết kế quy trình lên/xuống máy bay hiệu quả hơn được lấy cảm hứng từ cách các đội đua xe F1 thực hiện \"pit stop\" — một lĩnh vực hoàn toàn khác (đua xe vs hàng không), nhưng có cấu trúc tương tự: nhiều người cùng thực hiện các tác vụ song song, được luyện tập kỹ, trong một khoảng thời gian rất ngắn, với mục tiêu giảm thời gian \"chết\" của một phương tiện."},
+
+{cat:"sangtao", vi:"Kết nối ngẫu nhiên", en:"Random Input / Forced Association", short:"Cố ý đưa một yếu tố HOÀN TOÀN KHÔNG LIÊN QUAN vào quá trình suy nghĩ, và buộc bản thân tìm ra kết nối giữa yếu tố đó với vấn đề — để \"phá\" các mẫu suy nghĩ quen thuộc.",
+ detail:"Bộ não có xu hướng tự nhiên đi theo những đường mòn suy nghĩ quen thuộc (xem mục \"hiệu ứng bộ tư duy\"). Việc đưa vào một kích thích ngẫu nhiên, không liên quan, buộc bộ não phải tạo ra một con đường MỚI để kết nối nó với vấn đề — và chính con đường mới đó (chứ không phải yếu tố ngẫu nhiên) thường chứa ý tưởng có giá trị.",
+ example:"Đang bế tắc với câu hỏi \"làm sao tăng doanh số cửa hàng sách\", mở ngẫu nhiên một từ điển và chọn được từ \"đồng hồ cát\". Buộc bản thân kết nối: đồng hồ cát đo thời gian một cách trực quan, hữu hình → có thể tạo một khu vực \"đọc thử 10 phút\" với đồng hồ cát thật để khách cảm nhận được \"chỉ 10 phút\" là rất ngắn, giảm cảm giác \"phải mua mới được đọc\"."},
+
+{cat:"sangtao", vi:"Sáu chiếc mũ tư duy", en:"Six Thinking Hats", short:"Một kỹ thuật chia thảo luận thành 6 \"chế độ\" tư duy riêng biệt (sự kiện, cảm xúc, rủi ro, lợi ích, sáng tạo, tổng kết) — mỗi lúc cả nhóm chỉ \"đội\" một chiếc mũ.",
+ detail:"Trong thảo luận thông thường, các thành viên thường ở các \"chế độ\" tư duy khác nhau CÙNG LÚC (người này nói về rủi ro, người khác nói về cảm xúc, người khác lại đưa ý tưởng mới) — gây xung đột không cần thiết vì họ đang \"chơi các trò khác nhau\". Sáu Mũ buộc TOÀN BỘ nhóm cùng ở một chế độ tại một thời điểm, giảm xung đột cá nhân (\"tôi đang đội mũ đen, không phải tôi bi quan\") và đảm bảo mọi góc nhìn đều được xem xét đầy đủ, không bị bỏ qua.",
+ example:"Khi đánh giá một đề xuất chuyển văn phòng: mũ Trắng (chỉ dữ kiện — chi phí, khoảng cách, diện tích), mũ Đỏ (cảm xúc — mọi người cảm thấy thế nào về địa điểm mới), mũ Đen (rủi ro — điều gì có thể đi sai), mũ Vàng (lợi ích — điều gì sẽ tốt hơn), mũ Xanh lá (ý tưởng mới — có phương án nào khác), mũ Xanh dương (tổng kết — quyết định cuối). Lần lượt đi qua từng mũ đảm bảo không có góc nhìn nào bị một cá nhân \"chiếm sóng\" toàn bộ cuộc họp."},
+
+{cat:"sangtao", vi:"Sơ đồ tư duy", en:"Mind Mapping", short:"Một cách ghi chú phi tuyến tính, bắt đầu từ một ý tưởng trung tâm và phân nhánh ra các ý liên quan — phản ánh cách các ý tưởng thực sự kết nối trong đầu, thay vì ép vào danh sách tuyến tính.",
+ detail:"Ghi chú dạng danh sách (gạch đầu dòng từ trên xuống) áp đặt một thứ tự và cấu trúc phân cấp LÊN ý tưởng — trong khi các ý tưởng thực tế thường kết nối theo mạng lưới, không theo thứ tự. Sơ đồ tư duy cho phép ghi lại các kết nối này khi chúng xuất hiện (ở bất kỳ đâu trên trang), và thường giúp lộ ra những cụm ý tưởng hoặc những kết nối bất ngờ giữa các nhánh tưởng như không liên quan.",
+ example:"Khi lên kế hoạch cho một bài thuyết trình, viết \"Bài thuyết trình về AI\" ở trung tâm, rồi vẽ các nhánh: \"Lịch sử\", \"Ứng dụng\", \"Rủi ro\", \"Tương lai\". Trong khi vẽ nhánh \"Rủi ro\", một ý nảy ra cũng liên quan đến nhánh \"Ứng dụng\" — vẽ một đường nối trực tiếp giữa hai nhánh đó, tạo ra một liên kết mà nếu viết theo danh sách tuyến tính có thể đã không bao giờ được nhận ra."},
+
+{cat:"sangtao", vi:"Sáng tạo trong ràng buộc", en:"Constraint-driven Creativity", short:"Thay vì coi ràng buộc là thứ cản trở sáng tạo, dùng chính ràng buộc đó như một CÔNG CỤ — buộc phải tìm những giải pháp mà nếu có \"tự do hoàn toàn\" sẽ không bao giờ nghĩ tới.",
+ detail:"\"Tự do hoàn toàn\" thường dẫn đến tê liệt — quá nhiều khả năng khiến khó bắt đầu. Một ràng buộc rõ ràng (về thời gian, ngân sách, công cụ được phép dùng) thu hẹp không gian tìm kiếm, và đôi khi chính việc \"phải làm với những gì có sẵn\" lại đẩy tư duy ra khỏi những giải pháp \"hiển nhiên, tốn kém\" sang những giải pháp gọn, thông minh hơn.",
+ example:"Yêu cầu \"thiết kế một chiến dịch marketing với ngân sách 0 đồng\" nghe có vẻ bất khả thi, nhưng chính ràng buộc này loại bỏ ngay các lựa chọn \"quảng cáo trả tiền\" — buộc nhóm phải nghĩ đến nội dung lan truyền tự nhiên, hợp tác trao đổi (đổi sản phẩm cho người có ảnh hưởng), hoặc tận dụng kênh sở hữu sẵn có — những hướng mà nếu có ngân sách lớn, có thể không bao giờ được khám phá."},
+
+{cat:"sangtao", vi:"Kết hợp ý tưởng", en:"Combinatorial Creativity", short:"Phần lớn ý tưởng \"mới\" thực chất là sự kết hợp của hai (hoặc nhiều) ý tưởng đã tồn tại, được ghép lại theo một cách chưa ai ghép trước đó.",
+ detail:"Quan điểm này (được nhiều nhà nghiên cứu sáng tạo ủng hộ) cho rằng \"sáng tạo từ con số không\" rất hiếm — thay vào đó, sáng tạo thường là việc lấy một khái niệm/cơ chế từ lĩnh vực A và một khái niệm/cơ chế từ lĩnh vực B, rồi ghép chúng lại. Hệ quả thực tế: tiếp xúc với NHIỀU lĩnh vực khác nhau (đọc rộng, có sở thích đa dạng) làm tăng \"nguyên liệu\" có sẵn để kết hợp — và việc cố ý ghép cặp các khái niệm tưởng chừng không liên quan có thể là một kỹ thuật tạo ý tưởng có chủ đích.",
+ example:"Chiếc điện thoại thông minh đầu tiên không \"phát minh\" ra điện thoại, internet, camera, hay máy nghe nhạc — nó KẾT HỢP những thứ đã tồn tại riêng lẻ vào một thiết bị, theo một cách mà trước đó chưa ai làm ở quy mô và mức độ tích hợp đó. Giá trị sáng tạo nằm ở SỰ KẾT HỢP, không phải ở từng thành phần riêng lẻ."},
+
+// ===== 5. CHIẾN LƯỢC & HEURISTICS GIẢI QUYẾT =====
+{cat:"chienluoc", vi:"Heuristic", en:"Heuristic", short:"Một \"luật ngón tay cái\" — quy tắc đơn giản, nhanh, thường đúng (nhưng không đảm bảo luôn đúng) — giúp đưa ra hướng đi hợp lý khi không có thời gian/thông tin để tính toán đầy đủ.",
+ detail:"Heuristic đánh đổi ĐỘ CHÍNH XÁC để lấy TỐC ĐỘ và sự ĐƠN GIẢN. Trong giải quyết vấn đề, heuristic hữu ích nhất ở giai đoạn ĐẦU — để nhanh chóng có một hướng đi ban đầu (thay vì phân tích vô tận trước khi bắt đầu) — với hiểu biết rằng hướng đi đó có thể cần điều chỉnh khi có thêm thông tin.",
+ example:"Khi sửa một đoạn code bị lỗi, một heuristic phổ biến là \"kiểm tra thay đổi gần nhất trước\" — vì phần lớn lỗi mới xuất hiện liên quan đến thay đổi gần đây nhất, dù về lý thuyết lỗi có thể nằm ở bất kỳ đâu trong toàn bộ code. Heuristic này không đảm bảo đúng 100%, nhưng giúp bắt đầu tìm kiếm ở nơi có khả năng cao nhất, thay vì rà soát toàn bộ một cách ngẫu nhiên."},
+
+{cat:"chienluoc", vi:"Thuật toán vs Heuristic", en:"Algorithm vs Heuristic", short:"Thuật toán là quy trình từng bước được đảm bảo cho ra kết quả đúng (nhưng có thể chậm); heuristic là cách tiếp cận nhanh, thường đúng nhưng không đảm bảo — hai chiến lược phù hợp với hai loại tình huống khác nhau.",
+ detail:"Với những vấn đề có thể được \"giải hết\" bằng một quy trình xác định (và thời gian/nguồn lực cho phép), thuật toán là lựa chọn an toàn. Nhưng với những vấn đề quá lớn/phức tạp để thử mọi khả năng (không gian tìm kiếm khổng lồ), hoặc khi cần một quyết định NHANH hơn là một quyết định HOÀN HẢO, heuristic là lựa chọn thực tế hơn — và thường là lựa chọn DUY NHẤT khả thi.",
+ example:"Để tìm số nhỏ nhất trong một danh sách 10 số, thuật toán \"so sánh từng số với số nhỏ nhất hiện tại\" đảm bảo tìm đúng, và 10 số thì rất nhanh. Nhưng để \"tìm lộ trình giao hàng tối ưu cho 1000 điểm\", thuật toán đảm bảo đúng tuyệt đối sẽ cần thời gian tính toán không thực tế (nhiều hơn tuổi của vũ trụ) — vì vậy người ta dùng heuristic (như \"luôn đi đến điểm gần nhất tiếp theo\") để có một lộ trình \"đủ tốt\" trong vài giây."},
+
+{cat:"chienluoc", vi:"Phân tích phương tiện - mục đích", en:"Means-Ends Analysis", short:"Liên tục so sánh trạng thái HIỆN TẠI với trạng thái MỤC TIÊU, xác định sự khác biệt lớn nhất giữa hai trạng thái, và tìm một hành động (\"phương tiện\") để giảm chính sự khác biệt đó.",
+ detail:"Đây là một trong những chiến lược giải quyết vấn đề tổng quát nhất, được nghiên cứu từ rất sớm trong khoa học nhận thức (chương trình \"General Problem Solver\"). Thay vì cố hình dung toàn bộ con đường từ đầu đến cuối, chiến lược này chỉ tập trung vào \"khác biệt LỚN NHẤT hiện tại\" — giải quyết nó, rồi lặp lại với khác biệt lớn nhất MỚI, cho đến khi không còn khác biệt.",
+ example:"Mục tiêu: đi từ Hà Nội đến một hội nghị ở Tokyo. Khác biệt lớn nhất hiện tại: đang ở Hà Nội, cần ở Tokyo → phương tiện: đặt vé máy bay. Sau khi có vé, khác biệt lớn nhất mới: chưa có visa → phương tiện: nộp hồ sơ visa. Sau khi có visa, khác biệt lớn nhất: chưa biết địa điểm khách sạn → phương tiện: đặt khách sạn. Mỗi bước chỉ giải quyết khác biệt LỚN NHẤT tại thời điểm đó, không cần lập kế hoạch chi tiết toàn bộ chuyến đi từ đầu."},
+
+{cat:"chienluoc", vi:"Làm ngược từ đích", en:"Working Backwards", short:"Bắt đầu từ trạng thái MỤC TIÊU (đích) và đặt câu hỏi \"bước trước đó phải là gì để đến được đây\" — lùi dần về trạng thái hiện tại.",
+ detail:"Một số vấn đề dễ giải hơn rất nhiều khi đi từ đích về, vì số lượng \"bước có thể\" từ đích lùi lại thường ÍT hơn số lượng \"bước có thể\" từ đầu tiến tới (đặc biệt khi đích rất cụ thể còn điểm xuất phát có nhiều lựa chọn). Chiến lược này cũng hữu ích để kiểm tra tính khả thi: nếu lùi từ đích mà \"kẹt\" ở một bước không thể thực hiện, đó là dấu hiệu mục tiêu (như đã đặt ra) không khả thi và cần điều chỉnh.",
+ example:"Trong một bài toán đi qua mê cung, thử mọi đường từ lối vào có thể dẫn đến rất nhiều ngã rẽ chết. Nhưng bắt đầu từ LỐI RA và đi ngược lại thường nhanh hơn nếu lối ra có ít đường dẫn đến nó hơn lối vào có đường đi ra. Trong kế hoạch dự án, \"làm ngược từ đích\" là: \"để ra mắt vào ngày X, phải hoàn thành kiểm thử trước ngày Y, để kiểm thử xong trước Y phải code xong trước Z\"... — lùi dần để biết hôm nay phải làm gì."},
+
+{cat:"chienluoc", vi:"Thử và sai", en:"Trial and Error", short:"Thử một giải pháp, quan sát kết quả, điều chỉnh dựa trên những gì học được, và thử lại — một chiến lược đơn giản nhưng hiệu quả khi không gian giải pháp nhỏ hoặc phản hồi nhanh.",
+ detail:"Thử-sai thường bị coi nhẹ vì nghe có vẻ \"không có chiến lược\", nhưng nó là chiến lược TỐI ƯU trong nhiều tình huống thực tế: khi việc PHÂN TÍCH TRƯỚC tốn nhiều thời gian hơn việc THỬ TRỰC TIẾP, hoặc khi hệ thống quá phức tạp để dự đoán chính xác bằng lý thuyết. Điều quan trọng để thử-sai hiệu quả là: mỗi lần \"sai\" phải mang lại THÔNG TIN (học được gì) để lần thử sau tốt hơn — nếu không, đó chỉ là \"thử ngẫu nhiên\" không học hỏi.",
+ example:"Khi điều chỉnh công thức một món ăn mới, thử nghiệm trực tiếp (nấu, nếm, chỉnh gia vị, nấu lại) thường nhanh và hiệu quả hơn việc tính toán lý thuyết về tỷ lệ hóa học của từng nguyên liệu — vì phản hồi (vị giác) là tức thì và đáng tin cậy, và không gian \"công thức có thể\" đủ nhỏ để khám phá qua vài lần thử."},
+
+{cat:"chienluoc", vi:"Leo đồi", en:"Hill Climbing", short:"Từ vị trí hiện tại, luôn chọn bước tiếp theo \"tốt hơn một chút\" so với hiện tại — một chiến lược đơn giản, nhưng có thể bị \"kẹt\" ở một điểm tốt-cục-bộ mà không phải tốt-nhất-toàn-cục.",
+ detail:"Leo đồi hoạt động tốt khi \"địa hình\" của vấn đề chỉ có một \"đỉnh\" (một giải pháp tối ưu duy nhất, và mọi hướng cải thiện đều dẫn về đó). Nhưng nếu địa hình có NHIỀU đỉnh (nhiều giải pháp tốt-cục-bộ), leo đồi sẽ dừng lại ở đỉnh GẦN NHẤT — có thể thấp hơn nhiều so với đỉnh cao nhất ở xa. Để thoát khỏi đỉnh cục bộ, đôi khi cần chấp nhận \"đi xuống\" tạm thời (xem mục \"tính tối ưu giả\" trong các mô hình tư duy).",
+ example:"Một nhóm liên tục cải tiến sản phẩm hiện tại theo từng bước nhỏ (luôn \"tốt hơn một chút\") có thể đạt đến một phiên bản rất tối ưu CHO MÔ HÌNH HIỆN TẠI — nhưng nếu một mô hình kinh doanh hoàn toàn khác có tiềm năng cao hơn nhiều, \"leo đồi\" từ mô hình hiện tại sẽ KHÔNG BAO GIỜ dẫn đến đó, vì mọi bước \"đi sang\" mô hình mới ban đầu đều trông \"tệ hơn\" so với việc tiếp tục cải tiến mô hình cũ."},
+
+{cat:"chienluoc", vi:"Giải bài toán đơn giản hơn trước", en:"Solve a Simpler Problem First", short:"Khi một vấn đề quá phức tạp để tấn công trực tiếp, tạm thời bỏ qua một số điều kiện/độ phức tạp để giải một PHIÊN BẢN ĐƠN GIẢN HƠN — rồi dùng những gì học được để giải bản đầy đủ.",
+ detail:"Phiên bản đơn giản hóa có thể là: giảm số lượng (từ 100 trường hợp xuống 2-3), giảm chiều (từ 3D xuống 2D, từ nhiều biến xuống 1 biến), hoặc bỏ một ràng buộc khó. Lời giải cho phiên bản đơn giản không phải lúc nào cũng \"mở rộng\" trực tiếp thành lời giải cho bản đầy đủ — nhưng thường tiết lộ CẤU TRÚC hoặc Ý TƯỞNG CHÍNH mà bản đầy đủ cũng cần, giúp việc giải bản đầy đủ có một điểm khởi đầu rõ ràng hơn nhiều so với bắt đầu từ con số không.",
+ example:"Trước khi thiết kế hệ thống phân quyền cho một ứng dụng với 50 loại vai trò khác nhau (phức tạp), một nhóm có thể bắt đầu thiết kế cho TRƯỜNG HỢP ĐƠN GIẢN: chỉ 2 vai trò (Admin và User). Cấu trúc cơ bản (cách kiểm tra quyền, cách lưu trữ vai trò) được xây dựng và kiểm chứng ở quy mô 2 vai trò thường có thể mở rộng cho 50 vai trò — và các vấn đề về cấu trúc lộ ra sớm hơn, khi còn dễ sửa."},
+
+{cat:"chienluoc", vi:"Vẽ hình / Trực quan hóa", en:"Draw a Diagram", short:"Chuyển một vấn đề được mô tả bằng lời (hoặc giữ trong đầu) sang một hình vẽ, sơ đồ, hoặc biểu diễn trực quan — thường làm lộ ra cấu trúc hoặc giải pháp mà mô tả bằng lời che khuất.",
+ detail:"Ngôn ngữ (nói/viết) xử lý thông tin theo trình tự, một-thứ-tại-một-thời-điểm — trong khi nhiều vấn đề có cấu trúc KHÔNG GIAN hoặc QUAN HỆ giữa nhiều thành phần CÙNG LÚC. Vẽ ra giúp \"giữ\" tất cả các thành phần và quan hệ của chúng trong một không gian có thể nhìn thấy đồng thời — giải phóng trí nhớ làm việc (working memory) để tập trung vào việc tìm mẫu hình hoặc kết nối, thay vì phải \"nhớ\" mọi thứ trong đầu.",
+ example:"Bài toán: \"An cao hơn Bình. Bình thấp hơn Chi. Chi thấp hơn An.\" Đọc bằng lời, nhiều người phải đọc lại 2-3 lần để xác định ai cao nhất. Vẽ ba đường thẳng đứng với độ cao tương đối, đặt tên theo từng câu, câu trả lời (An cao nhất, Bình thấp nhất) hiện ra ngay lập tức từ hình vẽ — không cần \"tính toán\" gì thêm."},
+
+{cat:"chienluoc", vi:"Tìm trường hợp tương tự đã giải", en:"Look for Analogous Solved Problems", short:"Trước khi tạo giải pháp mới từ đầu, hỏi: \"Có vấn đề nào TƯƠNG TỰ (về cấu trúc) đã được giải trước đây — bởi tôi, bởi người khác, hoặc trong một lĩnh vực khác — mà tôi có thể học hỏi/điều chỉnh không?\"",
+ detail:"Khác với tư duy tương tự (mượn cấu trúc giải pháp để tạo ý tưởng mới — thiên về sáng tạo), chiến lược này thiên về TÌM KIẾM CÓ HỆ THỐNG: rà soát kinh nghiệm cá nhân, hỏi người khác, hoặc tìm tài liệu về các vấn đề tương tự ĐÃ ĐƯỢC GIẢI. Phần lớn vấn đề \"mới\" với một người thực ra không hoàn toàn mới với thế giới — và việc bắt đầu từ một giải pháp đã có (rồi điều chỉnh) thường nhanh hơn nhiều so với tự xây dựng từ đầu.",
+ example:"Một nhóm gặp vấn đề \"làm sao để giảm thời gian chờ tại quầy thanh toán\" có thể tốn nhiều tuần để tự nghĩ ra giải pháp — hoặc nhận ra rằng các siêu thị, sân bay, ngân hàng đã giải vấn đề \"hàng đợi\" này theo nhiều cách (hàng đợi chung một line, lấy số thứ tự, thanh toán tự động...) trong nhiều thập kỷ — và bắt đầu từ việc nghiên cứu những giải pháp đã có, điều chỉnh cho bối cảnh của mình."},
+
+{cat:"chienluoc", vi:"Thay đổi biểu diễn vấn đề", en:"Representation Change", short:"Cùng một vấn đề có thể được \"viết ra\" theo nhiều cách khác nhau (bằng lời, bằng số, bằng hình, bằng bảng...) — và một số cách biểu diễn khiến lời giải HIỂN NHIÊN, trong khi cách khác khiến nó gần như không thể thấy.",
+ detail:"Đây là một trong những \"đòn bẩy\" mạnh nhất trong giải quyết vấn đề: khi bế tắc, thử biểu diễn lại vấn đề theo một dạng KHÁC HẲN — chuyển từ lời sang hình, từ số sang đồ thị, từ tuyệt đối sang tương đối/tỷ lệ, từ tĩnh sang động (theo thời gian). Sự bế tắc thường không nằm ở vấn đề, mà nằm ở cách biểu diễn hiện tại đang \"giấu\" thông tin quan trọng.",
+ example:"Bài toán \"bàn cờ vua 8x8 bị cắt mất 2 góc chéo đối diện (còn 62 ô), có thể lát kín bằng 31 quân domino (mỗi quân che 2 ô) không?\" — nếu nghĩ bằng số (62 ô / 2 = 31, có vẻ vừa khớp) sẽ rất khó trả lời. Nhưng biểu diễn lại bằng MÀU (bàn cờ có ô đen/trắng xen kẽ, 2 góc chéo luôn CÙNG MÀU — nên sau khi cắt còn 30 ô một màu và 32 ô màu khác; mỗi domino luôn che 1 đen+1 trắng) — câu trả lời \"không thể\" trở nên hiển nhiên ngay lập tức."},
+
+// ===== 6. RA QUYẾT ĐỊNH & ĐÁNH GIÁ =====
+{cat:"raquyetdinh", vi:"Ma trận quyết định", en:"Decision Matrix", short:"Một bảng so sánh các giải pháp (theo cột) dựa trên nhiều tiêu chí (theo hàng), mỗi tiêu chí có thể có trọng số khác nhau — giúp so sánh các lựa chọn một cách có cấu trúc thay vì cảm tính.",
+ detail:"Ma trận quyết định đặc biệt hữu ích khi có NHIỀU tiêu chí quan trọng cùng lúc (không chỉ một, như \"giá rẻ nhất\") và các lựa chọn có sự đánh đổi qua lại giữa các tiêu chí đó. Giá trị lớn nhất của công cụ này không phải là \"con số cuối cùng\" (vì trọng số thường mang tính chủ quan), mà là việc buộc nhóm phải LÀM RÕ và THỐNG NHẤT về những tiêu chí nào quan trọng và quan trọng đến mức nào — quá trình thảo luận đó thường có giá trị hơn kết quả tính toán.",
+ example:"So sánh 3 phần mềm quản lý dự án dựa trên các tiêu chí: Giá (trọng số 30%), Dễ dùng (25%), Tích hợp với công cụ hiện có (25%), Hỗ trợ tiếng Việt (20%). Mỗi phần mềm được cho điểm 1-5 ở từng tiêu chí, nhân với trọng số, cộng lại. Phần mềm có tổng điểm cao nhất không hẳn là \"tốt nhất tuyệt đối\", nhưng là tốt nhất THEO NHỮNG GÌ NHÓM ĐÃ THỐNG NHẤT LÀ QUAN TRỌNG — và nếu ai không đồng ý với kết quả, cuộc tranh luận sẽ tập trung vào TRỌNG SỐ, rõ ràng hơn nhiều so với tranh luận chung chung."},
+
+{cat:"raquyetdinh", vi:"Phân tích chi phí - lợi ích", en:"Cost-Benefit Analysis", short:"Liệt kê và (nếu có thể) định lượng tất cả chi phí và lợi ích của một giải pháp — kể cả những chi phí/lợi ích KHÔNG RÕ RÀNG NGAY — để so sánh tổng thể.",
+ detail:"Cái khó nhất của phân tích này thường không phải là PHÉP TRỪ (lợi ích - chi phí), mà là việc LIỆT KÊ ĐẦY ĐỦ — nhiều chi phí \"ẩn\" (thời gian học cách dùng, chi phí duy trì, rủi ro) và lợi ích \"ẩn\" (tiết kiệm thời gian về sau, giảm stress, tăng uy tín) thường bị bỏ sót vì không xuất hiện trên \"hóa đơn\" trực tiếp. Một bản phân tích tốt cố ý tìm kiếm cả những khoản chi phí/lợi ích không rõ ràng này trước khi so sánh.",
+ example:"Mua một máy giặt mới (5 triệu) so với tiếp tục dùng máy cũ (đã trả hết tiền, có vẻ \"miễn phí\"). Chi phí không rõ ràng của máy cũ: tiền điện/nước cao hơn do kém hiệu quả, thời gian giặt lâu hơn, rủi ro hỏng đột ngột giữa lúc bận. Lợi ích không rõ ràng của máy mới: tiết kiệm điện nước theo thời gian, ít thời gian chờ hơn. Khi tính đủ các khoản \"ẩn\" này, máy mới có thể thực ra RẺ HƠN về tổng chi phí trong 3 năm, dù chi phí TRƯỚC MẮT cao hơn."},
+
+{cat:"raquyetdinh", vi:"Phân tích đánh đổi", en:"Trade-off Analysis", short:"Nhận diện rõ: để có được X (nhiều hơn), bạn phải đánh đổi điều gì (ít Y hơn) — và liệu sự đánh đổi đó có đáng hay không, dựa trên ưu tiên thực sự của bạn.",
+ detail:"Nhiều cuộc tranh luận về giải pháp thực ra là tranh luận về ƯU TIÊN bị che giấu dưới dạng tranh luận về SỰ KIỆN. Làm rõ đánh đổi (\"giải pháp A nhanh hơn nhưng đắt hơn; giải pháp B rẻ hơn nhưng chậm hơn\") tách biệt phần SỰ KIỆN (thường có thể đo được, ít gây tranh cãi) khỏi phần GIÁ TRỊ (tốc độ hay chi phí quan trọng hơn? — đây mới là điều cần quyết định, và quyết định này phụ thuộc vào BỐI CẢNH, không có câu trả lời \"đúng\" tuyệt đối).",
+ example:"Tranh luận \"nên dùng vật liệu A hay B để xây nhà\" có thể kéo dài vô tận nếu không làm rõ đánh đổi: A bền hơn nhưng đắt gấp đôi và thời gian thi công lâu hơn; B rẻ và nhanh nhưng cần sửa chữa sau 10 năm. Khi đánh đổi được nêu rõ, câu hỏi thực sự trở thành: \"Bạn ưu tiên chi phí thấp ban đầu hay ít phải sửa chữa về sau?\" — một câu hỏi về GIÁ TRỊ của người quyết định, không phải về \"vật liệu nào tốt hơn\" một cách tuyệt đối."},
+
+{cat:"raquyetdinh", vi:"Đủ tốt vs tối ưu tuyệt đối", en:"Satisficing vs Maximizing", short:"\"Đủ tốt\" là chọn giải pháp ĐẦU TIÊN đáp ứng các tiêu chí quan trọng và DỪNG LẠI; \"tối ưu\" là tiếp tục tìm kiếm/so sánh cho đến khi chắc chắn đã có lựa chọn TỐT NHẤT.",
+ detail:"Trong giải quyết vấn đề, việc cố \"tối ưu\" mọi quyết định — kể cả những quyết định nhỏ, ít quan trọng — tiêu tốn thời gian và năng lượng có thể dùng cho những vấn đề quan trọng hơn. Một chiến lược thực tế: dùng \"tối ưu\" cho một số ít quyết định CÓ TÁC ĐỘNG LỚN và KHÓ ĐẢO NGƯỢC, và dùng \"đủ tốt\" cho phần lớn các quyết định còn lại — việc nhận ra quyết định nào thuộc loại nào CŨNG là một phần của giải quyết vấn đề.",
+ example:"Khi chọn công cụ để ghi chú trong một buổi họp (quyết định nhỏ, dễ đổi), \"đủ tốt\" — dùng bất kỳ ứng dụng note có sẵn — là hợp lý. Nhưng khi chọn nền tảng để lưu trữ TOÀN BỘ tài liệu công ty trong 10 năm tới (quyết định lớn, khó đổi sau này), dành thời gian \"tối ưu\" — so sánh kỹ nhiều lựa chọn — là xứng đáng. Áp dụng \"tối ưu\" cho cả hai loại quyết định là lãng phí; áp dụng \"đủ tốt\" cho cả hai là rủi ro."},
+
+{cat:"raquyetdinh", vi:"Giá trị kỳ vọng", en:"Expected Value", short:"Khi một giải pháp có nhiều kết quả có thể xảy ra (mỗi kết quả có một xác suất và một giá trị), giá trị kỳ vọng là TỔNG của (xác suất × giá trị) trên tất cả các kết quả — một cách so sánh các lựa chọn không chắc chắn.",
+ detail:"Giá trị kỳ vọng hữu ích nhất khi quyết định được LẶP LẠI NHIỀU LẦN (trong trường hợp đó, \"trung bình dài hạn\" gần đúng với giá trị kỳ vọng — theo luật số lớn). Với những quyết định CHỈ XẢY RA MỘT LẦN và có khả năng mang lại kết quả CỰC ĐOAN (mất tất cả), giá trị kỳ vọng có thể \"dương\" nhưng vẫn là một lựa chọn TỆ — vì không có \"lần sau\" để trung bình hóa lại.",
+ example:"Một trò chơi: 90% khả năng mất 1 triệu, 10% khả năng được 20 triệu. Giá trị kỳ vọng = 0.9×(-1) + 0.1×(20) = 1.1 triệu (dương — \"đáng chơi\" về mặt giá trị kỳ vọng). Nhưng nếu đây là TOÀN BỘ số tiền bạn có và bạn chỉ chơi MỘT LẦN, 90% khả năng bạn mất hết — giá trị kỳ vọng dương không bù đắp được rủi ro mất-tất-cả không thể phục hồi của một lần chơi duy nhất."},
+
+{cat:"raquyetdinh", vi:"Phân tích độ nhạy", en:"Sensitivity Analysis", short:"Kiểm tra: nếu một GIẢ ĐỊNH quan trọng (mà bạn không chắc chắn 100%) thay đổi, kết luận/quyết định của bạn có thay đổi theo không — hay vẫn giữ nguyên?",
+ detail:"Nhiều quyết định dựa trên các con số/giả định mà thực ra không ai biết chính xác (tỷ lệ tăng trưởng, thời gian hoàn thành, chi phí trong tương lai). Phân tích độ nhạy không cố \"đoán đúng\" những số này, mà hỏi: trong KHOẢNG giá trị hợp lý của giả định đó, kết luận có thay đổi không? Nếu kết luận KHÔNG đổi dù giả định dao động nhiều, có thể tự tin quyết định mà không cần tốn công \"đoán chính xác\" giả định đó. Nếu kết luận RẤT NHẠY với một giả định, đó là dấu hiệu cần đầu tư thêm để làm rõ giả định đó trước khi quyết định.",
+ example:"Một kế hoạch kinh doanh giả định \"tăng trưởng khách hàng 10%/tháng\". Phân tích độ nhạy: nếu tăng trưởng chỉ 5%/tháng (thấp hơn giả định), dự án vẫn hòa vốn sau 8 tháng (chấp nhận được); nếu tăng trưởng 15% (cao hơn), hòa vốn sau 5 tháng. Vì kết luận \"dự án khả thi\" KHÔNG đổi trong khoảng 5-15%, không cần tốn nhiều công nghiên cứu thị trường để \"chốt\" con số 10% chính xác — quyết định đầu tư có thể tiến hành với mức độ tự tin hợp lý."},
+
+{cat:"raquyetdinh", vi:"Khám nghiệm trước", en:"Pre-mortem", short:"Trước khi triển khai giải pháp, giả định nó đã THẤT BẠI — và truy tìm lý do tại sao, để phát hiện rủi ro trong khi còn có thể xử lý.",
+ detail:"Khám nghiệm trước hoạt động ngược với sự lạc quan tự nhiên khi vừa chọn được một giải pháp (\"giải pháp này sẽ hiệu quả!\"). Bằng cách GIẢ ĐỊNH thất bại đã xảy ra (\"Một năm sau, giải pháp này đã thất bại hoàn toàn — vì sao?\"), mọi người dễ dàng nêu lên những lo ngại mà trong không khí lạc quan thông thường họ có thể ngại nói ra (vì sợ bị coi là \"tiêu cực\" hay \"cản trở\").",
+ example:"Sau khi nhóm chọn giải pháp \"chuyển toàn bộ quy trình sang phần mềm mới\", trước khi triển khai, mỗi người dành 15 phút viết: \"Giả sử 6 tháng nữa việc chuyển đổi này đã thất bại — lý do khả năng nhất là gì?\" Các câu trả lời (như \"nhân viên lớn tuổi không quen dùng và âm thầm quay lại cách cũ\", \"dữ liệu cũ không tương thích với hệ mới\") trở thành DANH SÁCH RỦI RO CỤ THỂ cần có kế hoạch xử lý TRƯỚC khi bắt đầu, không phải sau khi đã thất bại thật."},
+
+{cat:"raquyetdinh", vi:"Quyết định một chiều vs hai chiều", en:"Reversible vs Irreversible Decisions", short:"Phân loại một quyết định theo việc nó có thể DỄ DÀNG HOÀN TÁC (cửa hai chiều) hay KHÔNG THỂ/RẤT KHÓ HOÀN TÁC (cửa một chiều) — và điều chỉnh mức độ cân nhắc tương ứng.",
+ detail:"Với quyết định \"hai chiều\", chi phí của một lựa chọn sai thường nhỏ (vì có thể sửa) — nên RA QUYẾT ĐỊNH NHANH và HỌC TỪ THỰC TẾ thường tốt hơn là phân tích lâu. Với quyết định \"một chiều\", chi phí sai có thể rất lớn và không sửa được — nên đầu tư thời gian phân tích, tham khảo ý kiến, và thử nghiệm ở QUY MÔ NHỎ trước (nếu có thể) là hợp lý. Sai lầm phổ biến là áp dụng tốc độ của loại này cho loại kia.",
+ example:"Quyết định \"thử một định dạng họp mới trong 2 tuần\" là cửa hai chiều — nếu không hiệu quả, quay lại định dạng cũ dễ dàng, nên cứ thử mà không cần họp bàn nhiều. Quyết định \"xóa toàn bộ dữ liệu khách hàng cũ để 'làm sạch' hệ thống\" là cửa một chiều — nếu sau này phát hiện cần dữ liệu đó (cho pháp lý, phân tích lịch sử...), không thể lấy lại — quyết định này cần được xem xét kỹ và có phương án backup trước khi thực hiện, dù về \"công việc\" có vẻ đơn giản hơn việc đổi định dạng họp."},
+
+{cat:"raquyetdinh", vi:"Chi phí cơ hội của việc giải quyết vấn đề", en:"Opportunity Cost of Solving", short:"Thời gian/nguồn lực dùng để giải vấn đề NÀY không thể dùng để giải vấn đề KHÁC — và đôi khi \"không giải vấn đề này\" (chấp nhận sống với nó) là lựa chọn hợp lý hơn.",
+ detail:"Không phải mọi vấn đề đều ĐÁNG được giải — một số vấn đề có \"chi phí giải\" (thời gian, công sức, rủi ro khi thay đổi) lớn hơn \"chi phí của việc tiếp tục có vấn đề đó\". Trước khi đầu tư công sức vào một vấn đề, một câu hỏi hữu ích: \"Nếu tôi KHÔNG giải vấn đề này và dùng nguồn lực đó cho việc khác, kết quả tổng thể sẽ tốt hơn hay xấu hơn?\"",
+ example:"Một quy trình nội bộ có một bước \"hơi bất tiện\" nhưng mọi người đã quen và nó chỉ tốn thêm 2 phút/lần, vài lần/tuần. \"Sửa\" quy trình này có thể cần một dự án kéo dài vài tuần, với rủi ro gây xáo trộn và lỗi mới trong giai đoạn chuyển đổi. Chi phí cơ hội của vài tuần đó (có thể dùng cho một vấn đề khác có tác động lớn hơn) có thể LỚN HƠN tổng \"chi phí 2 phút × số lần × số người\" của vấn đề nhỏ này — nên đôi khi \"sống với\" một vấn đề nhỏ là quyết định đúng."},
+
+{cat:"raquyetdinh", vi:"Đánh giá rủi ro", en:"Risk Assessment", short:"Với mỗi giải pháp được xem xét, đánh giá không chỉ \"nó có hiệu quả không\" mà còn \"nếu nó KHÔNG hiệu quả (hoặc có tác dụng phụ), hậu quả nghiêm trọng đến đâu, và khả năng điều đó xảy ra là bao nhiêu?\"",
+ detail:"Hai giải pháp có thể có \"hiệu quả kỳ vọng\" tương đương, nhưng RỦI RO rất khác nhau — một giải pháp có thể có kết quả ổn định, dao động nhỏ; giải pháp khác có thể \"hoặc rất tốt, hoặc rất tệ\" (biến thiên lớn). Tùy vào bối cảnh (mức độ chịu đựng rủi ro, mức độ nghiêm trọng nếu thất bại), giải pháp \"ổn định\" có thể được ưu tiên hơn giải pháp \"hiệu quả kỳ vọng cao hơn nhưng biến thiên lớn\", hoặc ngược lại.",
+ example:"Để tăng doanh số, giải pháp A (giảm giá 5% cho tất cả khách hàng) có kết quả dự đoán ổn định: tăng doanh số khoảng 8-12%. Giải pháp B (một chiến dịch quảng cáo viral mạo hiểm) có thể tăng doanh số 50% nếu thành công, nhưng 70% khả năng không có tác dụng gì và mất luôn ngân sách quảng cáo. Một doanh nghiệp nhỏ với dòng tiền eo hẹp có thể ưu tiên A (rủi ro thấp, kết quả chắc chắn) hơn B, dù B có \"tiềm năng\" cao hơn về mặt lý thuyết."},
+// ===== 7. MÔ HÌNH TƯ DUY NỀN TẢNG =====
+{cat:"mohinh", vi:"Tư duy từ nguyên lý đầu tiên", en:"First Principles Thinking", short:"Phá vỡ một vấn đề xuống những sự thật cơ bản nhất (không thể chia nhỏ hơn) mà bạn TIN LÀ ĐÚNG, rồi xây dựng lại lời giải từ đó — thay vì suy luận dựa trên \"cách người ta vẫn làm\".",
+ detail:"Khi giải quyết vấn đề bằng cách suy luận theo \"tương tự\" (\"trước đây làm thế nào thì giờ làm thế\"), giải pháp bị giới hạn bởi những giả định/cách làm cũ — có thể đã lỗi thời. Tư duy từ nguyên lý đầu tiên đòi hỏi tách riêng \"đâu là sự thật vật lý/logic không thể tranh cãi\" và \"đâu chỉ là cách làm theo quy ước\" — sau đó chỉ giữ lại phần đầu và xây dựng lại từ đó, có thể dẫn đến những giải pháp mà cách làm cũ không cho phép.",
+ example:"Khi một quy trình phê duyệt mua hàng yêu cầu 5 cấp ký duyệt vì \"luôn làm thế từ trước đến giờ\", tư duy từ nguyên lý đầu tiên hỏi: \"Sự thật cơ bản cần đạt là gì?\" — có thể là \"đảm bảo không có giao dịch gian lận và ngân sách được kiểm soát\". Từ sự thật này, có thể thiết kế lại: chỉ cần 1 cấp duyệt cho giao dịch dưới một ngưỡng, với kiểm tra ngẫu nhiên định kỳ — đạt được MỤC TIÊU GỐC mà không cần 5 cấp ký theo quy ước cũ."},
+
+{cat:"mohinh", vi:"Tư duy đảo ngược", en:"Inversion", short:"Thay vì hỏi \"làm sao để đạt được mục tiêu X\", hỏi \"điều gì chắc chắn sẽ KHIẾN TÔI KHÔNG đạt được X — và làm sao để tránh những điều đó\".",
+ detail:"Nhiều vấn đề \"thuận\" (làm sao để thành công) có không gian lời giải rất rộng và mơ hồ, trong khi vấn đề \"nghịch\" (làm sao để thất bại/làm sao để phá hỏng) thường có danh sách câu trả lời CỤ THỂ và DỄ LIỆT KÊ hơn nhiều. Sau khi có danh sách \"những điều chắc chắn dẫn đến thất bại\", chỉ cần đảm bảo TRÁNH được tất cả những điều đó — đây thường là một con đường thực tế và rõ ràng hơn việc cố tìm \"công thức thành công\".",
+ example:"Câu hỏi \"làm sao để buổi thuyết trình thành công\" rất rộng. Đảo ngược: \"điều gì chắc chắn làm buổi thuyết trình THẤT BẠI?\" — máy chiếu không hoạt động, nói quá thời gian quy định, không trả lời được câu hỏi cơ bản về số liệu, giọng nói quá nhỏ. Danh sách này CỤ THỂ và có thể kiểm tra trước (test máy chiếu, luyện thời gian, chuẩn bị số liệu, kiểm tra âm thanh) — và việc đảm bảo không mắc phải những điều này thường đã loại bỏ phần lớn nguy cơ thất bại, dù không \"đảm bảo\" thành công xuất sắc."},
+
+{cat:"mohinh", vi:"Dao cạo Occam", en:"Occam's Razor", short:"Trong số các lời giải thích/giải pháp khả thi cho một vấn đề, lời giải thích ĐƠN GIẢN NHẤT (ít giả định nhất) nên được xem xét và kiểm tra TRƯỚC.",
+ detail:"Trong giải quyết vấn đề, dao cạo Occam giúp tránh \"đi đường vòng\": khi có một lời giải thích đơn giản (ít bước, ít giả định) và một lời giải thích phức tạp (nhiều bước, nhiều điều kiện phải đúng cùng lúc) đều CÓ THỂ đúng, kiểm tra giải thích đơn giản trước — vì nó dễ kiểm tra hơn, và nếu đúng thì tiết kiệm được rất nhiều thời gian so với việc đi theo hướng phức tạp trước.",
+ example:"Máy in báo lỗi \"không in được\". Giải thích phức tạp: driver bị hỏng, cần gỡ và cài lại toàn bộ hệ thống in. Giải thích đơn giản: hết giấy hoặc hết mực, hoặc dây cáp/wifi bị lỏng/mất kết nối. Kiểm tra giải thích đơn giản (10 giây nhìn vào khay giấy, mực, kết nối) TRƯỚC khi bắt đầu một quá trình gỡ-cài driver tốn 30 phút — phần lớn trường hợp, nguyên nhân thực sự là điều đơn giản."},
+
+{cat:"mohinh", vi:"Tư duy bậc hai", en:"Second-order Thinking", short:"Một giải pháp giải quyết được vấn đề TRƯỚC MẮT (bậc một) có thể tạo ra một vấn đề MỚI ở bậc tiếp theo — tư duy bậc hai là việc chủ động hỏi \"và sau đó thì sao?\" trước khi triển khai.",
+ detail:"Đây là một \"bộ lọc\" quan trọng trước khi chọn giải pháp cuối cùng: với mỗi giải pháp tiềm năng, hỏi không chỉ \"nó giải quyết vấn đề A như thế nào\" (bậc một), mà còn \"sau khi A được giải quyết, điều gì sẽ xảy ra tiếp theo — và liệu điều đó có tạo ra vấn đề B mới (có thể còn tệ hơn A)?\" (bậc hai, ba...).",
+ example:"Vấn đề: \"nhân viên thường xuyên trả lời tin nhắn công việc ngoài giờ, gây kiệt sức\". Giải pháp bậc một: cấm gửi tin nhắn công việc sau 18h — giải quyết vấn đề \"kiệt sức ngoài giờ\". Bậc hai: nhưng nếu một vấn đề khẩn cấp xảy ra lúc 19h, không ai được thông báo cho đến sáng hôm sau, có thể gây thiệt hại lớn hơn việc \"một tin nhắn ngoài giờ\" ban đầu — giải pháp bậc một đã tạo ra một rủi ro mới ở bậc hai cần được tính đến (ví dụ: cho phép tin nhắn NHƯNG không bắt buộc phản hồi ngay, trừ trường hợp đánh dấu khẩn cấp)."},
+
+{cat:"mohinh", vi:"Vòng tròn năng lực", en:"Circle of Competence", short:"Biết rõ RANH GIỚI của những gì bạn (hoặc nhóm) thực sự hiểu sâu — và với những vấn đề nằm NGOÀI ranh giới đó, tìm người/nguồn lực có vòng tròn năng lực phù hợp, thay vì tự giải.",
+ detail:"Một sai lầm phổ biến trong giải quyết vấn đề là áp dụng cách tư duy/kỹ năng đã thành công trong một lĩnh vực sang một lĩnh vực HOÀN TOÀN KHÁC mà không nhận ra sự khác biệt — vì \"tự tin\" do thành công trước đó. Nhận diện đúng \"đây có nằm trong vòng tròn năng lực của tôi không\" là bước đầu quan trọng: nếu không, bước tiếp theo là TÌM người có năng lực phù hợp (hoặc HỌC để mở rộng vòng tròn), không phải tự giải bằng kinh nghiệm không liên quan.",
+ example:"Một người sáng lập startup công nghệ rất giỏi về sản phẩm và kỹ thuật, nhưng khi công ty gặp vấn đề pháp lý phức tạp về hợp đồng với nhà đầu tư, việc \"tự đọc và tự quyết\" dựa trên trực giác (như cách họ vẫn quyết định về sản phẩm) có thể dẫn đến sai lầm nghiêm trọng — vấn đề pháp lý nằm NGOÀI vòng tròn năng lực của họ, và bước giải quyết đúng là thuê luật sư chuyên trách, không phải \"tự tin xử lý như mọi vấn đề khác\"."},
+
+{cat:"mohinh", vi:"Bản đồ không phải vùng đất", en:"The Map is not the Territory", short:"Mọi mô hình/dữ liệu/báo cáo về một vấn đề là một bản TÓM TẮT đơn giản hóa của thực tế — và đôi khi giải pháp \"đúng trên bản đồ\" lại thất bại vì thực tế có những chi tiết bản đồ không thể hiện.",
+ detail:"Khi giải quyết vấn đề chỉ dựa trên dữ liệu/báo cáo (\"bản đồ\") mà không kiểm tra thực tế (\"vùng đất\"), có nguy cơ giải pháp được thiết kế cho một phiên bản \"đã được đơn giản hóa\" của vấn đề — bỏ lỡ những yếu tố quan trọng mà bản đồ không ghi lại (vì không ai nghĩ chúng quan trọng, hoặc không đo được). \"Đi ra thực địa\" (gemba, trong thuật ngữ Lean) là một cách thực hành nguyên lý này.",
+ example:"Báo cáo (\"bản đồ\") cho thấy \"quy trình kiểm hàng mất trung bình 10 phút/lô\" — và một giải pháp được thiết kế dựa trên con số này. Nhưng khi quan sát trực tiếp tại kho (\"vùng đất\"), hóa ra con số 10 phút chỉ đúng khi nhân viên kiểm hàng KHÔNG bị gọi đi làm việc khác giữa giờ — điều xảy ra THƯỜNG XUYÊN trong thực tế nhưng không được ghi vào hệ thống đo thời gian. Giải pháp dựa trên \"10 phút\" sẽ không giải quyết được vấn đề thực sự (gián đoạn công việc), vì bản đồ đã bỏ sót yếu tố này."},
+
+{cat:"mohinh", vi:"Điểm đòn bẩy", en:"Leverage Points", short:"Trong một hệ thống có nhiều yếu tố liên quan đến vấn đề, một số ÍT điểm can thiệp tạo ra tác động lớn hơn rất nhiều so với những điểm khác — tìm và tập trung vào những điểm này.",
+ detail:"Khi đối diện với một vấn đề có nhiều \"nguyên nhân\" hoặc \"yếu tố ảnh hưởng\", có một cám dỗ là cố gắng can thiệp vào TẤT CẢ — dẫn đến nguồn lực bị dàn mỏng và không yếu tố nào được xử lý đủ sâu để tạo ra thay đổi thực sự. Tìm điểm đòn bẩy nghĩa là chấp nhận KHÔNG xử lý mọi thứ, để tập trung toàn lực vào một (hoặc vài) điểm có khả năng tạo ra hiệu ứng lan tỏa lớn nhất ra toàn hệ thống.",
+ example:"Một trường học muốn cải thiện \"kết quả học tập tổng thể\" và liệt kê được 15 yếu tố ảnh hưởng (cơ sở vật chất, chương trình học, đào tạo giáo viên, dinh dưỡng học sinh, công nghệ...). Thay vì cố cải thiện tất cả 15 (mỗi thứ một ít, không đâu đủ), phân tích cho thấy \"chất lượng phản hồi của giáo viên cho bài tập\" — một yếu tố duy nhất — có tương quan mạnh nhất với cải thiện kết quả ở NHIỀU môn học khác nhau. Tập trung đào tạo giáo viên về cách phản hồi hiệu quả (một điểm đòn bẩy) có thể tạo ra tác động lan tỏa lớn hơn việc cải thiện rải rác 15 yếu tố."},
+
+{cat:"mohinh", vi:"Vòng phản hồi", en:"Feedback Loops", short:"Khi giải pháp được triển khai, kết quả của nó cần được ĐO LẠI và đưa trở lại vào quá trình — để biết giải pháp có thực sự hiệu quả hay cần điều chỉnh, thay vì \"làm rồi quên\".",
+ detail:"Một giải pháp không có vòng phản hồi giống như bắn một mũi tên vào bóng tối — không ai biết nó có trúng đích hay không, và nếu không trúng, không ai biết để điều chỉnh hướng cho lần sau. Thiết kế vòng phản hồi NGAY TỪ ĐẦU (xác định sẽ đo gì, đo khi nào, ai xem kết quả) là một phần của việc thiết kế giải pháp — không phải một bước \"thêm vào sau nếu có thời gian\".",
+ example:"Một công ty triển khai chính sách \"làm việc từ xa 2 ngày/tuần\" để giải quyết vấn đề \"nhân viên kiệt sức\". Nếu không có vòng phản hồi, công ty sẽ không biết: chính sách có thực sự giảm kiệt sức không, hay nó vô tình tạo ra vấn đề mới (cô lập, giảm gắn kết nhóm). Thiết kế vòng phản hồi — khảo sát mức độ kiệt sức và gắn kết hằng tháng, theo dõi trong 3 tháng — cho phép phát hiện sớm nếu chính sách cần điều chỉnh (ví dụ: chọn ngày làm từ xa linh hoạt hơn) trước khi vấn đề mới trở nên nghiêm trọng."},
+
+{cat:"mohinh", vi:"Tư duy xác suất", en:"Probabilistic Thinking", short:"Thay vì nghĩ \"giải pháp này SẼ hiệu quả\" hoặc \"SẼ KHÔNG hiệu quả\", nghĩ về MỘT LOẠT kết quả có thể xảy ra với các mức xác suất khác nhau — và chuẩn bị cho từng kịch bản.",
+ detail:"Khi một giải pháp được nói đến như \"chắc chắn sẽ hiệu quả\", thường có hai vấn đề: (1) nếu nó KHÔNG hiệu quả, mọi người bị bất ngờ hoàn toàn và không có kế hoạch B; (2) việc \"chắc chắn\" có thể khiến nhóm bỏ qua những dấu hiệu cảnh báo sớm vì đã \"chốt\" trong đầu là sẽ thành công. Tư duy xác suất giữ cho tâm trí \"mở\" với nhiều khả năng, giúp phản ứng nhanh hơn khi thực tế đi theo một trong các kịch bản không phải \"kịch bản chính\".",
+ example:"Trước khi ra mắt một tính năng mới, thay vì nói \"tính năng này sẽ được người dùng thích\", nhóm chuẩn bị theo xác suất: \"60% khả năng người dùng phản hồi tích cực và chúng ta mở rộng; 30% khả năng phản hồi trung bình, cần điều chỉnh UI; 10% khả năng phản hồi tiêu cực, cần rút lại tính năng\". Với mỗi khả năng đã có kế hoạch hành động tương ứng — nên dù kết quả thực tế là kịch bản nào, nhóm cũng không bị \"đứng hình\", chỉ cần thực thi kế hoạch đã chuẩn bị cho kịch bản đó."},
+
+{cat:"mohinh", vi:"Via Negativa", en:"Via Negativa (Subtraction)", short:"Khi tìm giải pháp, đừng chỉ nghĩ \"cần THÊM gì\" — hãy nghĩ cả \"có thể BỎ ĐI gì\" — loại bỏ một rào cản/yếu tố gây hại đôi khi hiệu quả hơn (và rẻ hơn) việc thêm một giải pháp mới.",
+ detail:"Bộ não có xu hướng tự nhiên nghĩ về giải pháp theo hướng \"thêm vào\" (thêm tính năng, thêm quy trình, thêm nhân sự, thêm công cụ) — vì \"thêm\" dễ hình dung và dễ \"khoe\" hơn \"bớt\". Nhưng trong nhiều vấn đề, chính những thứ ĐÃ CÓ (một bước quy trình thừa, một quy định lỗi thời, một cuộc họp không cần thiết) đang là một phần của vấn đề — và loại bỏ chúng là một \"giải pháp\" hợp lệ, thường ít rủi ro hơn việc thêm cái mới (vì không thêm độ phức tạp).",
+ example:"Vấn đề: \"quy trình duyệt chi phí quá chậm, nhân viên phàn nàn\". Hướng \"thêm\": xây một phần mềm mới tự động hóa quy trình duyệt (tốn kém, mất nhiều tháng triển khai). Hướng \"via negativa\": rà soát quy trình hiện tại và phát hiện có MỘT bước duyệt (bởi một phòng ban không còn liên quan từ sau một lần tái cấu trúc 2 năm trước) hoàn toàn có thể BỎ ĐI mà không ảnh hưởng đến kiểm soát — loại bỏ một bước này giảm 40% thời gian quy trình, với chi phí gần như bằng không."},
+
+// ===== 8. TƯ DUY PHẢN BIỆN & THIÊN KIẾN =====
+{cat:"phanbien", vi:"Tư duy phản biện", en:"Critical Thinking", short:"Chủ động đặt câu hỏi và kiểm tra tính hợp lý của thông tin, lập luận và giả định — của người khác VÀ của chính mình — trước khi chấp nhận chúng làm cơ sở cho quyết định.",
+ detail:"Tư duy phản biện không có nghĩa là \"phản đối mọi thứ\" hay hoài nghi cực đoan — mà là có một THÓI QUEN hỏi: \"Bằng chứng cho điều này là gì? Có cách giải thích khác không? Tôi có đang bỏ qua điều gì vì nó không khớp với điều tôi muốn tin?\" Trong giải quyết vấn đề, tư duy phản biện áp dụng cho TỪNG BƯỚC — từ việc định nghĩa vấn đề, đến phân tích nguyên nhân, đến đánh giá giải pháp — không chỉ ở bước cuối.",
+ example:"Một báo cáo nội bộ kết luận \"khách hàng rời bỏ vì giá quá cao\" dựa trên một khảo sát. Tư duy phản biện đặt câu hỏi: khảo sát được gửi cho ai (chỉ khách đã rời bỏ, hay cả khách đang dùng)? Tỷ lệ phản hồi là bao nhiêu (10% hay 80%)? Câu hỏi khảo sát có gợi ý sẵn câu trả lời không (\"Giá có phải là lý do bạn rời bỏ không?\" dễ dẫn đến câu trả lời \"có\" hơn câu hỏi mở)? Những câu hỏi này không nhằm \"bác bỏ\" kết luận, mà để biết NÊN TIN TƯỞNG kết luận đó đến mức nào trước khi dựa vào nó để quyết định."},
+
+{cat:"phanbien", vi:"Ngụy biện logic", en:"Logical Fallacies", short:"Những kiểu lập luận có vẻ hợp lý nhưng thực ra chứa lỗi về cấu trúc — nhận diện được chúng giúp tránh bị thuyết phục bởi (hoặc tự mình đưa ra) những kết luận sai dựa trên hình thức \"nghe có lý\".",
+ detail:"Một số ngụy biện thường gặp trong giải quyết vấn đề: \"dốc trơn\" (cho rằng một bước nhỏ chắc chắn dẫn đến hậu quả cực đoan, không có bước trung gian nào ngăn lại), \"công kích cá nhân\" (bác bỏ ý kiến vì người nói, không vì nội dung), \"viện đến truyền thống\" (\"luôn làm thế từ trước\" = \"đúng\"), \"sai lầm lựa chọn nhị phân\" (chỉ đưa ra 2 lựa chọn trong khi còn nhiều khả năng khác). Nhận diện những MẪU lập luận này (không cần nhớ tên) giúp dừng lại và kiểm tra kỹ hơn khi gặp chúng.",
+ example:"Khi ai đó phản đối một thay đổi quy trình bằng câu \"nếu chúng ta thay đổi cách này, tiếp theo mọi người sẽ muốn thay đổi mọi thứ, và công ty sẽ rơi vào hỗn loạn hoàn toàn\" — đây là \"dốc trơn\": từ MỘT thay đổi nhỏ nhảy thẳng đến \"hỗn loạn hoàn toàn\", bỏ qua việc mỗi thay đổi vẫn cần được xem xét và quyết định riêng. Nhận ra mẫu lập luận này giúp tách phần LO NGẠI THỰC SỰ (có thể hợp lý) khỏi phần PHÓNG ĐẠI (không có cơ sở)."},
+
+{cat:"phanbien", vi:"Lập luận \"người thép\"", en:"Steel Manning", short:"Trước khi phản bác hoặc bác bỏ một ý kiến/giải pháp khác, cố gắng trình bày lại nó theo PHIÊN BẢN MẠNH NHẤT, hợp lý nhất có thể — ngược lại với \"người rơm\" (bóp méo thành phiên bản yếu để dễ bác bỏ).",
+ detail:"Khi đánh giá các giải pháp cạnh tranh (đặc biệt là giải pháp KHÔNG phải của mình), có xu hướng tự nhiên nhìn vào phiên bản YẾU NHẤT của nó để dễ bác bỏ — nhưng điều này có thể khiến ta bỏ lỡ một giải pháp thực ra tốt, chỉ vì đã đánh giá dựa trên phiên bản tồi của nó. Steel-manning buộc phải hiểu giải pháp đó ở mức TỐT NHẤT trước khi so sánh — nếu sau khi \"thép hóa\", nó vẫn kém hơn lựa chọn của mình, sự so sánh đó MỚI có giá trị.",
+ example:"Khi một đồng nghiệp đề xuất \"hoãn ra mắt sản phẩm thêm 1 tháng\", phản ứng nhanh có thể là \"không, anh ấy chỉ đang sợ rủi ro, lúc nào cũng muốn trì hoãn\" (người rơm). Steel-manning: \"phiên bản TỐT NHẤT của lý do hoãn 1 tháng có thể là gì? — có thể là: dữ liệu kiểm thử cho thấy một lỗi hiếm nhưng nghiêm trọng, và 1 tháng đủ để sửa triệt để, tránh một scandal lớn sau ra mắt\". Khi đặt vấn đề theo cách này, cuộc thảo luận tập trung vào RỦI RO CỤ THỂ đó, thay vào việc tranh luận về \"tính cách\" của người đề xuất."},
+
+{cat:"phanbien", vi:"Vai phản biện", en:"Devil's Advocate", short:"Chỉ định (hoặc tự nhận) vai trò chủ động TÌM LỖI/RỦI RO của một giải pháp đã được nhóm ủng hộ — ngay cả khi cá nhân đó cũng nghĩ giải pháp đó tốt.",
+ detail:"Khi một nhóm đã \"đồng thuận\" về một giải pháp, có một động lực xã hội ngầm chống lại việc nêu lo ngại (sợ bị coi là \"phá đám\", \"tiêu cực\"). Chỉ định MỘT người chính thức đóng vai \"phản biện\" — với sự hiểu ngầm rằng họ KHÔNG thực sự phản đối, chỉ đang LÀM VAI TRÒ — giúp những lo ngại được nêu ra một cách \"an toàn\" về mặt xã hội, mà không ai cảm thấy bị tấn công cá nhân.",
+ example:"Sau khi một nhóm marketing thống nhất về một khẩu hiệu chiến dịch mới (mọi người đều thích), người được chỉ định làm \"phản biện\" có nhiệm vụ nêu: \"khẩu hiệu này có thể bị hiểu theo nghĩa khác ở một số vùng miền không? Đối thủ có khẩu hiệu tương tự gần đây không? Nếu chiến dịch này KHÔNG hiệu quả, lý do khả năng nhất là gì?\" — những câu hỏi này được đặt ra một cách CÓ CHỦ ĐÍCH, không phải vì người đó \"thực sự ghét\" khẩu hiệu, giúp nhóm kiểm tra kỹ trước khi triển khai mà không khí làm việc không bị căng thẳng."},
+
+{cat:"phanbien", vi:"Cố định chức năng", en:"Functional Fixedness", short:"Xu hướng chỉ nhìn thấy CÁCH SỬ DỤNG QUEN THUỘC của một vật/công cụ/khái niệm — khiến không nhận ra nó có thể được dùng theo cách khác để giải quyết vấn đề hiện tại.",
+ detail:"Đây là một \"rào cản tinh thần\" rất phổ biến: một khi đã \"gán nhãn\" một thứ với một chức năng cụ thể (ví dụ: \"cái này là để đo, không phải để...\"), việc nhìn ra chức năng KHÁC của nó trở nên khó khăn hơn — dù về mặt vật lý, nó hoàn toàn có thể dùng cho việc đó. Vượt qua cố định chức năng thường đòi hỏi chủ động hỏi: \"Nếu tạm quên đi 'mục đích thiết kế ban đầu' của thứ này, nó có những THUỘC TÍNH nào (hình dạng, vật liệu, kích thước) có thể hữu ích cho vấn đề hiện tại?\"",
+ example:"Bài toán nến cổ điển: gắn một cây nến vào tường sao cho khi cháy, sáp không rơi xuống bàn — chỉ được dùng nến, diêm, và một hộp đinh ghim. Hầu hết người thử cố gắn nến trực tiếp vào tường bằng đinh ghim (thất bại) vì họ thấy \"hộp\" chỉ là VẬT CHỨA đinh ghim (chức năng quen thuộc). Lời giải: đổ đinh ghim ra, dùng chính CÁI HỘP (rỗng) làm giá đỡ gắn vào tường, đặt nến lên trên — \"cái hộp\" có một chức năng khác (làm giá đỡ) mà cố định chức năng đã che khuất."},
+
+{cat:"phanbien", vi:"Hiệu ứng bộ tư duy", en:"Mental Set (Einstellung Effect)", short:"Xu hướng tiếp tục dùng một CÁCH GIẢI đã từng hiệu quả với các vấn đề trước đó — dù với vấn đề HIỆN TẠI, cách giải đó không còn là cách hiệu quả nhất (hoặc thậm chí không hoạt động).",
+ detail:"Khác với cố định chức năng (về một VẬT cụ thể), hiệu ứng bộ tư duy là về một PHƯƠNG PHÁP/QUY TRÌNH GIẢI đã quen. Nếu một loạt vấn đề trước đó đều giải được bằng phương pháp A, khi gặp một vấn đề MỚI (mà phương pháp B đơn giản hơn nhiều), nhiều người vẫn áp dụng phương pháp A theo \"thói quen\" — và có thể giải được, nhưng dài dòng và phức tạp hơn nhiều so với cần thiết, hoặc trong một số trường hợp, hoàn toàn bỏ lỡ phương pháp B đơn giản hơn.",
+ example:"Thí nghiệm kinh điển về \"bài toán nước\" (water jar problems): cho người tham gia giải một loạt bài toán đong nước bằng CÔNG THỨC PHỨC TẠP (B - 2C - A) nhiều lần liên tiếp. Khi gặp một bài toán MỚI có thể giải bằng công thức ĐƠN GIẢN HƠN (A - C), nhiều người vẫn áp dụng công thức phức tạp cũ (vẫn ra đúng kết quả, nhưng dài hơn) — hoặc tệ hơn, không nhận ra rằng công thức cũ KHÔNG áp dụng được cho một bài toán biến thể khác mà cần công thức đơn giản. \"Bộ tư duy\" từ các bài toán trước đã \"che\" mất giải pháp đơn giản hơn."},
+
+{cat:"phanbien", vi:"Thiên kiến xác nhận", en:"Confirmation Bias", short:"Xu hướng tìm kiếm, ghi nhớ, và ưu tiên thông tin XÁC NHẬN giả thuyết/nguyên nhân mà bạn đã nghi ngờ từ đầu — và bỏ qua/giảm nhẹ thông tin MÂU THUẪN với nó.",
+ detail:"Trong giai đoạn tìm nguyên nhân hoặc đánh giá giải pháp, thiên kiến xác nhận khiến quá trình \"điều tra\" trở thành quá trình \"tìm bằng chứng cho điều tôi đã tin\", thay vì \"tìm ra điều gì thực sự đúng\". Một cách chống lại: với mỗi giả thuyết, chủ động đặt câu hỏi \"điều gì sẽ là bằng chứng CHỐNG LẠI giả thuyết này — và tôi đã tìm bằng chứng đó chưa?\" — không chỉ tìm bằng chứng ủng hộ.",
+ example:"Một quản lý tin rằng \"hiệu suất nhóm giảm vì có một nhân viên X làm việc kém, ảnh hưởng đến cả nhóm\". Sau khi tin điều này, họ chỉ để ý đến những LẦN X mắc lỗi (\"thấy chưa, đúng là X\") mà không chú ý đến những lần nhóm gặp vấn đề KHÔNG liên quan đến X (do quy trình, do công cụ...) — những thông tin này \"trôi qua\" mà không được ghi nhận, vì không khớp với giả thuyết ban đầu. Kết quả: X có thể bị quy trách nhiệm cho một vấn đề mà nguyên nhân thực sự nằm ở nơi khác."},
+
+{cat:"phanbien", vi:"Hiệu ứng mỏ neo", en:"Anchoring Effect", short:"Thông tin/con số/giải pháp ĐẦU TIÊN được đưa ra trong quá trình thảo luận có ảnh hưởng KHÔNG TƯƠNG XỨNG đến những đánh giá/giải pháp tiếp theo — dù \"mỏ neo\" đó có hợp lý hay không.",
+ detail:"Trong các buổi brainstorm hoặc thảo luận giải pháp, ý tưởng ĐẦU TIÊN được nêu ra (đặc biệt nếu bởi người có vị thế cao) thường \"định hình\" toàn bộ cuộc thảo luận tiếp theo — các ý tưởng sau có xu hướng là BIẾN THỂ của ý tưởng đầu, thay vì những hướng hoàn toàn độc lập. Một kỹ thuật chống lại: yêu cầu mỗi người viết ý tưởng RIÊNG (trước khi chia sẻ), hoặc người có vị thế cao nhất nói SAU CÙNG — để giảm hiệu ứng \"neo\" vào ý kiến đầu tiên/có thẩm quyền.",
+ example:"Trong họp đánh giá ngân sách cho một dự án, nếu người đầu tiên đưa ra số \"500 triệu\" (dù chỉ là ước tính sơ bộ, không chắc chắn), các đề xuất tiếp theo có xu hướng dao động QUANH số 500 triệu (\"450, 550, 600\"...) — dù nếu KHÔNG có con số neo này, một phân tích độc lập có thể cho ra một con số hoàn toàn khác (ví dụ 200 triệu hoặc 1 tỷ). Yêu cầu mỗi người ước tính ĐỘC LẬP trước khi chia sẻ giúp có một tập số liệu phản ánh đánh giá thực sự, không bị \"neo\" vào con số đầu tiên."},
+
+{cat:"phanbien", vi:"Thiên kiến hiện trạng", en:"Status Quo Bias", short:"Xu hướng ưu tiên \"giữ nguyên như hiện tại\" hơn một sự thay đổi — kể cả khi sự thay đổi đó, nếu đánh giá khách quan, mang lại kết quả tốt hơn.",
+ detail:"Thiên kiến này hoạt động ở cả mức cá nhân và tổ chức: \"giữ nguyên\" được coi là lựa chọn \"an toàn\", \"mặc định\" — không cần biện minh — trong khi BẤT KỲ thay đổi nào đều cần được \"chứng minh\" là đủ tốt để vượt qua \"sự bất tiện của việc thay đổi\". Điều này có thể khiến một giải pháp RÕ RÀNG TỐT HƠN vẫn không được chấp nhận, đơn giản vì nó không phải \"cách đang làm\" — và ngược lại, đôi khi \"giữ nguyên\" thực ra LÀ lựa chọn tốt nhất, nhưng nó cần được CHỌN một cách có ý thức, không phải mặc định vì \"ngại thay đổi\".",
+ example:"Một công ty vẫn dùng một quy trình báo cáo thủ công tốn 5 giờ/tuần, trong khi một công cụ tự động có thể giảm xuống 30 phút — nhưng đề xuất chuyển đổi bị từ chối nhiều lần với lý do \"quy trình hiện tại vẫn hoạt động, sao phải đổi\". \"Vẫn hoạt động\" đang được coi là lý do đủ để KHÔNG xem xét thay đổi — trong khi nếu đặt ngược lại (\"nếu BẮT ĐẦU TỪ ĐẦU hôm nay, bạn sẽ chọn quy trình 5 giờ hay 30 phút?\"), câu trả lời rõ ràng hơn nhiều."},
+
+{cat:"phanbien", vi:"Tư duy nhóm", en:"Groupthink", short:"Khi một nhóm quá coi trọng sự ĐỒNG THUẬN, các thành viên có xu hướng tự kiểm duyệt ý kiến khác biệt — dẫn đến việc nhóm \"đồng ý\" với một giải pháp mà nhiều cá nhân (nếu hỏi riêng) có thể không thực sự tin tưởng.",
+ detail:"Tư duy nhóm đặc biệt nguy hiểm trong giải quyết vấn đề vì nó tạo ra ẢO TƯỞNG về sự chắc chắn — \"cả nhóm đều đồng ý, vậy chắc giải pháp này đúng\" — trong khi sự đồng ý đó có thể chỉ phản ánh việc không ai muốn là người đầu tiên nói khác. Các dấu hiệu: không khí họp \"quá suôn sẻ\", quyết định được đưa ra rất nhanh cho một vấn đề phức tạp, hoặc người có ý kiến khác im lặng sau một bình luận của người có vị thế cao.",
+ example:"Một nhóm dự án họp để chọn giải pháp cho một vấn đề kỹ thuật phức tạp, và sau 15 phút, mọi người đồng ý với phương án do trưởng nhóm đề xuất đầu tiên — không ai đặt câu hỏi. Sau họp, hỏi riêng từng người, có 2 người thực ra có lo ngại về tính khả thi nhưng \"thấy mọi người có vẻ đồng ý nên không muốn nói\". Áp dụng kỹ thuật như \"vai phản biện\" hoặc yêu cầu mỗi người viết đánh giá ĐỘC LẬP trước khi thảo luận chung có thể giúp những lo ngại này được nêu ra trước khi quyết định, không phải sau khi đã \"chốt\"."},
+
+// ===== 9 và 10 sẽ ở phần tiếp theo =====
+// ===== 9. THỬ NGHIỆM & LẶP =====
+{cat:"thunghiem", vi:"Lặp lại", en:"Iteration", short:"Thay vì cố tạo ra giải pháp \"hoàn hảo\" ngay từ lần đầu, tạo một phiên bản, thử nghiệm, học từ kết quả, rồi tạo phiên bản TIẾP THEO tốt hơn — lặp lại nhiều vòng.",
+ detail:"Lặp lại dựa trên một nhận thức quan trọng: ở giai đoạn đầu, bạn luôn biết ÍT hơn so với sau khi đã thử một lần — vì vậy, việc \"lập kế hoạch hoàn hảo\" trước khi thử bất cứ điều gì thường dựa trên những giả định chưa được kiểm chứng. Mỗi vòng lặp không chỉ tạo ra một phiên bản tốt hơn, mà còn tạo ra THÔNG TIN MỚI giúp vòng lặp tiếp theo tốt hơn theo cách mà không thể dự đoán được từ đầu.",
+ example:"Khi viết một bài phát biểu quan trọng, thay vì dành 10 giờ viết MỘT bản \"hoàn hảo\" rồi đọc trước khán giả, một cách tiếp cận lặp: viết bản thảo đầu (2 giờ), đọc thử cho 1 người bạn nghe, ghi nhận phần nào họ thấy khó hiểu/buồn ngủ, sửa lại (1 giờ), đọc thử lần 2 cho người khác... Sau 3-4 vòng (tổng thời gian có thể tương đương), bài phát biểu thường tốt hơn nhiều so với một bản \"hoàn hảo trên giấy\" chưa từng được kiểm chứng bằng phản hồi thực tế."},
+
+{cat:"thunghiem", vi:"Tạo mẫu nhanh", en:"Rapid Prototyping", short:"Tạo một phiên bản THÔ, ĐƠN GIẢN, TỐN ÍT THỜI GIAN/CHI PHÍ của một giải pháp — chỉ đủ để kiểm tra một câu hỏi cụ thể — trước khi đầu tư vào phiên bản đầy đủ.",
+ detail:"Mục đích của một bản mẫu (prototype) không phải là \"gần giống sản phẩm cuối\" — mà là TRẢ LỜI MỘT CÂU HỎI cụ thể với chi phí thấp nhất có thể. Một bản mẫu \"tốt\" có thể trông rất xấu/thô về mặt thẩm mỹ, miễn là nó cho phép kiểm tra được điều cần kiểm tra (ví dụ: \"người dùng có hiểu cách dùng tính năng này không\" không cần giao diện đẹp, chỉ cần luồng tương tác đúng).",
+ example:"Trước khi lập trình một ứng dụng đặt lịch hẹn hoàn chỉnh (có thể tốn vài tháng), một bản mẫu nhanh có thể chỉ là vài trang giấy vẽ tay (wireframe) mô tả các bước, đưa cho 5 người dùng thử \"bấm\" qua các trang giấy đó và quan sát họ có bị bối rối ở bước nào không. Nếu 4/5 người bị \"kẹt\" ở cùng một bước trên GIẤY, đó là tín hiệu mạnh để thiết kế lại bước đó — TRƯỚC KHI viết bất kỳ dòng code nào, với chi phí gần như bằng không."},
+
+{cat:"thunghiem", vi:"Kiểm định giả thuyết", en:"Hypothesis Testing", short:"Phát biểu rõ một dự đoán CÓ THỂ KIỂM TRA được (\"nếu X đúng, tôi sẽ thấy Y\"), rồi thiết kế một cách để quan sát xem Y có xảy ra không — từ đó biết X có khả năng đúng hay không.",
+ detail:"Khác với \"thử và xem điều gì xảy ra\" một cách mơ hồ, kiểm định giả thuyết đòi hỏi PHÁT BIỂU TRƯỚC dự đoán cụ thể — điều này quan trọng vì nó ngăn việc \"diễn giải lại\" kết quả sau khi đã biết (để kết quả nào cũng có vẻ \"xác nhận\" điều mình tin — liên quan đến thiên kiến xác nhận). Một giả thuyết tốt cũng nên có khả năng bị BÁC BỎ (nếu Y không xảy ra, đó là bằng chứng chống lại X) — nếu không có cách nào để \"thua\", việc kiểm định không có ý nghĩa.",
+ example:"Giả thuyết: \"Khách hàng bỏ giỏ hàng vì bước nhập thông tin thanh toán quá dài (8 trường)\". Dự đoán cụ thể: \"Nếu giả thuyết đúng, khi giảm xuống 4 trường, tỷ lệ hoàn thành thanh toán sẽ tăng đáng kể (ví dụ >10%)\". Sau khi thử nghiệm, nếu tỷ lệ hoàn thành CHỈ tăng 1% (không đáng kể), đó là bằng chứng giả thuyết ban đầu SAI (hoặc không phải nguyên nhân chính) — và cần tìm giả thuyết khác, thay vì cố \"giải thích\" tại sao 1% cũng \"coi như\" thành công."},
+
+{cat:"thunghiem", vi:"Thử nghiệm A/B", en:"A/B Testing", short:"So sánh trực tiếp HAI phiên bản của một giải pháp bằng cách cho hai nhóm tương đương (ngẫu nhiên) tiếp xúc với từng phiên bản, rồi đo sự khác biệt trong kết quả.",
+ detail:"Điểm mạnh của A/B testing so với \"thay đổi rồi so sánh trước-sau theo thời gian\" là nó loại bỏ ảnh hưởng của các yếu tố khác CŨNG thay đổi theo thời gian (mùa, xu hướng, sự kiện bên ngoài) — vì cả hai nhóm A và B đều trải qua CÙNG một khoảng thời gian, cùng điều kiện bên ngoài, chỉ khác ở MỘT yếu tố đang được kiểm tra. Điều này giúp kết luận về nhân quả đáng tin cậy hơn nhiều so với so sánh theo thời gian.",
+ example:"Để kiểm tra \"nút màu đỏ có làm tăng tỷ lệ click hơn nút màu xanh không\", thay vì đổi nút thành đỏ trong 1 tuần rồi so với tuần trước (có thể tuần này vốn đông khách hơn vì lý do khác), chia ngẫu nhiên 50% khách thấy nút đỏ, 50% thấy nút xanh, TRONG CÙNG MỘT TUẦN. Nếu nhóm thấy nút đỏ có tỷ lệ click cao hơn đáng kể, sự khác biệt CHỈ có thể do màu nút (vì mọi yếu tố khác — thời gian, lượng khách — là chung cho cả hai nhóm)."},
+
+{cat:"thunghiem", vi:"Vòng lặp Xây dựng - Đo lường - Học hỏi", en:"Build-Measure-Learn Loop", short:"Một khung lặp lại cho việc phát triển giải pháp trong điều kiện không chắc chắn cao: XÂY một phiên bản tối thiểu, ĐO phản ứng thực tế, HỌC từ đó để quyết định bước tiếp theo (tiếp tục, điều chỉnh, hoặc dừng).",
+ detail:"Khung này nhấn mạnh rằng mục tiêu của một vòng lặp KHÔNG phải là \"xây xong sản phẩm\", mà là HỌC ĐƯỢC ĐIỀU GÌ ĐÓ — và \"xây\" chỉ là PHƯƠNG TIỆN để tạo ra một thứ có thể ĐO ĐƯỢC. Nếu một phiên bản có thể được xây NHỎ HƠN nhưng vẫn cho phép đo lường điều cần học, phiên bản nhỏ hơn đó tốt hơn — vì vòng lặp hoàn thành nhanh hơn, và \"học\" có giá trị dù phiên bản đó không bao giờ trở thành sản phẩm cuối.",
+ example:"Một nhóm tin rằng \"khách hàng sẵn sàng trả tiền cho dịch vụ giao hàng trong 1 giờ\". XÂY: không cần xây toàn bộ hệ thống logistics — chỉ cần một trang đặt hàng đơn giản với lựa chọn \"giao trong 1 giờ (phụ phí X)\" và xử lý đơn hàng THỦ CÔNG (người trong nhóm tự đi giao). ĐO: bao nhiêu % khách chọn lựa chọn này. HỌC: nếu rất ít người chọn dù có sẵn, giả thuyết ban đầu có thể sai — và nhóm tránh được việc đầu tư xây cả hệ thống logistics cho một nhu cầu không thực sự tồn tại."},
+
+{cat:"thunghiem", vi:"Thất bại nhanh, thất bại rẻ", en:"Fail Fast, Fail Cheap", short:"Nếu một hướng đi sẽ THẤT BẠI, tốt hơn là biết điều đó càng SỚM và với chi phí càng THẤP càng tốt — thay vì phát hiện ra sau khi đã đầu tư rất nhiều.",
+ detail:"Nguyên lý này không cổ vũ \"thất bại\" như một mục tiêu, mà nhấn mạnh: trong điều kiện không chắc chắn, một số ý tưởng SẼ thất bại — và câu hỏi quan trọng không phải là \"làm sao tránh mọi thất bại\" (thường không thể, hoặc rất tốn kém để loại trừ hoàn toàn rủi ro), mà là \"làm sao để CHI PHÍ của việc phát hiện ra thất bại là thấp nhất\". Điều này thường có nghĩa là: kiểm tra giả định RỦI RO NHẤT trước, với phiên bản RẺ NHẤT có thể, TRƯỚC KHI đầu tư vào những phần khác.",
+ example:"Một nhóm có ý tưởng sản phẩm phụ thuộc vào việc \"đối tác X đồng ý chia sẻ dữ liệu với chúng ta\" — đây là giả định RỦI RO NHẤT (nếu đối tác không đồng ý, toàn bộ ý tưởng sụp đổ). \"Thất bại nhanh\" nghĩa là: LIÊN HỆ với đối tác X NGAY TRONG TUẦN ĐẦU (chi phí: một email/cuộc gọi) để kiểm tra giả định này — TRƯỚC KHI dành 3 tháng xây dựng sản phẩm dựa trên giả định đó. Nếu đối tác từ chối, nhóm \"thất bại\" với chi phí một email, không phải 3 tháng công sức."},
+
+{cat:"thunghiem", vi:"Cải tiến liên tục", en:"Kaizen / Incremental Improvement", short:"Thay vì chờ một \"đột phá lớn\", liên tục thực hiện những thay đổi NHỎ, ĐỀU ĐẶN — tích lũy theo thời gian (lãi kép) thành cải thiện lớn, với rủi ro mỗi lần thay đổi rất thấp.",
+ detail:"Cải tiến liên tục dựa trên việc mỗi thay đổi nhỏ DỄ THỰC HIỆN, DỄ ĐÁNH GIÁ, và DỄ HOÀN TÁC nếu không hiệu quả — khác với một \"dự án cải tiến lớn\" tốn nhiều nguồn lực, khó đánh giá (vì nhiều thứ thay đổi cùng lúc), và khó hoàn tác nếu thất bại. Một lợi ích phụ quan trọng: cải tiến nhỏ, đều đặn tạo ra một VĂN HÓA nơi việc \"tìm và sửa vấn đề nhỏ\" là bình thường — giúp các vấn đề được phát hiện và xử lý SỚM, trước khi tích tụ thành vấn đề lớn.",
+ example:"Một nhà máy áp dụng Kaizen: mỗi tuần, mỗi nhóm công nhân được khuyến khích đề xuất VÀ TỰ THỬ một thay đổi nhỏ trong khu vực làm việc của họ (di chuyển một công cụ gần hơn, đổi thứ tự hai bước). Mỗi thay đổi riêng lẻ có vẻ \"không đáng kể\" (tiết kiệm vài giây), nhưng với hàng trăm thay đổi như vậy được thực hiện trong một năm, tổng tác động lên năng suất có thể lớn hơn nhiều so với một dự án \"cải tiến lớn\" được lập kế hoạch tập trung — và rủi ro của mỗi thay đổi nhỏ gần như bằng không."},
+
+{cat:"thunghiem", vi:"Phương pháp khoa học", en:"Scientific Method", short:"Quan sát → đặt giả thuyết → thiết kế thí nghiệm để kiểm tra → thu thập dữ liệu → kết luận (giữ, sửa, hoặc bỏ giả thuyết) → lặp lại — một quy trình có cấu trúc để học từ thực tế một cách đáng tin cậy.",
+ detail:"Áp dụng phương pháp khoa học vào giải quyết vấn đề (không chỉ trong phòng thí nghiệm) có nghĩa là: thay vì \"thử một thứ và nếu kết quả tốt thì giữ nguyên cách giải thích ban đầu\" (dễ dẫn đến kết luận sai do trùng hợp hoặc do các yếu tố khác), CHỦ ĐỘNG nghĩ ra cách kiểm tra mà nếu giả thuyết SAI, kết quả sẽ khác đi RÕ RÀNG — và sẵn sàng từ bỏ giả thuyết ban đầu nếu dữ liệu không ủng hộ, dù điều đó \"không như mong đợi\".",
+ example:"Quan sát: \"doanh số giảm vào các ngày mưa\". Giả thuyết: \"khách hàng không muốn ra ngoài khi mưa\". Thí nghiệm: nếu giả thuyết đúng, dịch vụ GIAO HÀNG (không cần ra ngoài) phải KHÔNG giảm (hoặc tăng) vào ngày mưa. Dữ liệu: doanh số giao hàng CŨNG giảm vào ngày mưa, với mức giảm tương tự. Kết luận: giả thuyết ban đầu có thể SAI (hoặc không đầy đủ) — cần tìm giả thuyết khác (ví dụ: mưa ảnh hưởng đến tâm trạng/quyết định chi tiêu nói chung, không chỉ việc \"ra ngoài\")."},
+
+{cat:"thunghiem", vi:"Thử nghiệm an toàn", en:"Safe-to-fail Experiments", short:"Thiết kế một thử nghiệm sao cho NẾU NÓ THẤT BẠI, hậu quả được GIỚI HẠN và KIỂM SOÁT — cho phép thử những ý tưởng \"rủi ro\" mà không gây thiệt hại lớn nếu sai.",
+ detail:"Khác với \"thất bại nhanh, rẻ\" (tập trung vào CHI PHÍ thấp), thử nghiệm an toàn tập trung vào việc giới hạn PHẠM VI ẢNH HƯỞNG của thất bại — bằng cách thử ở QUY MÔ NHỎ, trong một KHU VỰC/NHÓM giới hạn, hoặc với khả năng DỪNG/HOÀN TÁC nhanh nếu có dấu hiệu xấu. Điều này đặc biệt quan trọng với những thay đổi có thể ảnh hưởng đến nhiều người (chính sách, quy trình) — nơi \"thử trên toàn bộ rồi xem\" có thể gây hậu quả lớn nếu sai.",
+ example:"Một bệnh viện muốn thử một quy trình mới cho việc tiếp nhận bệnh nhân, có khả năng cải thiện thời gian chờ NHƯNG cũng có rủi ro chưa rõ. Thay vì áp dụng cho TOÀN BỘ bệnh viện ngay (nếu sai, ảnh hưởng đến mọi bệnh nhân), thử nghiệm an toàn là: áp dụng CHỈ ở MỘT khoa, trong giờ ÍT BỆNH NHÂN nhất, với một BÁC SĨ GIÁM SÁT có thể DỪNG ngay nếu có vấn đề. Nếu thử nghiệm cho thấy vấn đề, phạm vi ảnh hưởng (một khoa, giờ ít bệnh nhân) đã giới hạn hậu quả — trước khi xem xét mở rộng."},
+
+{cat:"thunghiem", vi:"Hậu kiểm / Rút kinh nghiệm", en:"Retrospective / Postmortem", short:"Sau khi một giải pháp đã được triển khai (thành công HOẶC thất bại), dành thời gian có cấu trúc để nhìn lại: điều gì đã xảy ra, vì sao, và bài học nào cho LẦN SAU.",
+ detail:"Một sai lầm phổ biến là chỉ làm hậu kiểm khi có THẤT BẠI rõ ràng — nhưng những thành công \"may mắn\" (đạt kết quả tốt nhờ một yếu tố ngẫu nhiên, không phải nhờ quyết định đúng) cũng cần được xem xét, để tránh rút ra bài học SAI (\"chiến lược này hiệu quả\" khi thực ra là may mắn). Một hậu kiểm tốt tập trung vào QUY TRÌNH RA QUYẾT ĐỊNH (với thông tin có vào thời điểm đó, quyết định có hợp lý không?) hơn là KẾT QUẢ đơn thuần (kết quả tốt/xấu một phần do may rủi, không hoàn toàn phản ánh chất lượng quyết định).",
+ example:"Một dự án ra mắt đúng hạn và thành công — nhưng hậu kiểm cho thấy: thành công phần lớn nhờ một đối tác BẤT NGỜ đẩy nhanh tiến độ giao hàng (yếu tố nhóm không kiểm soát và không lường trước), trong khi quy trình NỘI BỘ của nhóm thực ra bị trễ 2 tuần so với kế hoạch (chỉ là \"được cứu\" bởi yếu tố bên ngoài). Nếu không hậu kiểm kỹ, nhóm có thể kết luận \"quy trình của chúng ta hoạt động tốt\" — và lặp lại quy trình có vấn đề đó cho dự án tiếp theo, lần này không có \"đối tác may mắn\" để cứu."},
+
+// ===== 10. TRIỂN KHAI & HỢP TÁC =====
+{cat:"trienkhai", vi:"Lập bản đồ các bên liên quan", en:"Stakeholder Mapping", short:"Xác định TẤT CẢ những người/nhóm sẽ bị ảnh hưởng bởi giải pháp, mức độ ảnh hưởng đến họ, và mức độ ảnh hưởng CỦA HỌ đến việc giải pháp có được triển khai thành công hay không.",
+ detail:"Một giải pháp \"đúng\" về mặt kỹ thuật/logic vẫn có thể thất bại trong triển khai nếu bỏ qua những người sẽ THỰC HIỆN nó hằng ngày, hoặc những người có QUYỀN PHỦ QUYẾT (dù không tham gia thiết kế). Lập bản đồ sớm giúp phân loại: ai cần được THAM GIA THIẾT KẾ (vì hiểu biết của họ quan trọng và/hoặc họ có quyền phủ quyết), ai cần được THÔNG BÁO TRƯỚC (để không bị bất ngờ và phản ứng tiêu cực), và ai chỉ cần biết SAU KHI đã quyết định.",
+ example:"Một thay đổi về phần mềm kế toán ảnh hưởng đến: phòng kế toán (người dùng hằng ngày — cần tham gia thiết kế), phòng IT (người duy trì hệ thống — cần tham gia thiết kế), giám đốc tài chính (người phê duyệt ngân sách — cần thông báo trước và có quyền phủ quyết), và toàn bộ nhân viên công ty (người nộp báo cáo chi phí qua hệ thống — chỉ cần được thông báo và hướng dẫn SAU khi hệ thống đã sẵn sàng). Nếu phòng kế toán không được tham gia thiết kế, giải pháp \"hoàn hảo về kỹ thuật\" của IT có thể không khớp với cách họ thực sự làm việc."},
+
+{cat:"trienkhai", vi:"Kế hoạch triển khai", en:"Implementation Planning", short:"Có một giải pháp HAY không có nghĩa là biết cách ĐƯA nó vào thực tế — kế hoạch triển khai trả lời: ai làm gì, theo thứ tự nào, với nguồn lực nào, và làm sao biết khi nào hoàn thành từng bước.",
+ detail:"Khoảng cách giữa \"có ý tưởng giải pháp\" và \"giải pháp đang hoạt động trong thực tế\" thường lớn hơn nhiều so với khoảng cách giữa \"có vấn đề\" và \"có ý tưởng giải pháp\" — nhưng phần này thường ít được chú ý vì \"đã giải quyết được phần khó (tìm giải pháp) rồi\". Một kế hoạch triển khai tốt chia giải pháp thành các BƯỚC CÓ THỂ HÀNH ĐỘNG, với người chịu trách nhiệm và mốc thời gian rõ ràng cho mỗi bước — biến \"ý tưởng\" thành \"việc cần làm hôm nay\".",
+ example:"Giải pháp \"chuyển sang quy trình duyệt chi phí mới\" (ý tưởng) cần kế hoạch triển khai: Tuần 1 — IT cấu hình hệ thống mới (người: A). Tuần 2 — chạy thử với 1 phòng ban, thu phản hồi (người: B). Tuần 3 — điều chỉnh dựa trên phản hồi (người: A). Tuần 4 — đào tạo toàn công ty, công bố ngày chuyển đổi chính thức (người: C). Nếu không có kế hoạch này, \"chuyển sang quy trình mới\" có thể mãi chỉ là một ý tưởng được nhắc đến trong các cuộc họp, không bao giờ thực sự xảy ra."},
+
+{cat:"trienkhai", vi:"Quản lý thay đổi", en:"Change Management", short:"Con người không chỉ phản ứng với NỘI DUNG của một thay đổi, mà còn với CÁCH thay đổi được giới thiệu, lý do, và mức độ họ cảm thấy có TIẾNG NÓI trong quá trình đó.",
+ detail:"Một giải pháp giống nhau có thể được đón nhận rất khác nhau tùy vào cách nó được TRIỂN KHAI: bị áp đặt bất ngờ (thường gây phản ứng, dù giải pháp tốt) so với được giới thiệu với lý do rõ ràng, có cơ hội đặt câu hỏi/góp ý, và có thời gian chuyển tiếp hợp lý (thường được đón nhận tốt hơn, dù giải pháp giống nhau). Quản lý thay đổi không phải là \"thuyết phục mọi người rằng thay đổi là tốt\" bằng mọi giá, mà là thiết kế QUÁ TRÌNH thay đổi để giảm thiểu những phản ứng tiêu cực không cần thiết.",
+ example:"Hai công ty cùng áp dụng MỘT chính sách mới giống nhau. Công ty A: gửi email thông báo \"có hiệu lực từ ngày mai\" không giải thích lý do — nhân viên phản ứng tiêu cực, nhiều người không tuân thủ. Công ty B: tổ chức buổi chia sẻ giải thích VẤN ĐỀ mà chính sách này giải quyết, lắng nghe câu hỏi/lo ngại, công bố trước 2 tuần với giai đoạn \"thử nghiệm\" 1 tuần để mọi người làm quen — cùng một chính sách, nhưng được đón nhận tích cực hơn nhiều. Sự khác biệt không nằm ở \"giải pháp\", mà ở QUÁ TRÌNH thay đổi."},
+
+{cat:"trienkhai", vi:"Xây dựng đồng thuận", en:"Buy-in / Consensus Building", short:"Mức độ mọi người THỰC SỰ ủng hộ (không chỉ \"không phản đối\") một giải pháp ảnh hưởng lớn đến việc họ có nỗ lực để nó thành công, hay chỉ \"làm theo lệnh\" một cách hình thức.",
+ detail:"\"Đồng thuận\" không có nghĩa là MỌI NGƯỜI đều nghĩ giải pháp này là LỰA CHỌN TỐT NHẤT — mà là mọi người hiểu LÝ DO của lựa chọn, cảm thấy quan điểm của họ đã được XEM XÉT (dù không phải lúc nào cũng được chọn), và đồng ý ỦNG HỘ việc triển khai dù có thể họ ban đầu nghiêng về một lựa chọn khác. Sự khác biệt giữa \"đồng thuận thực sự\" và \"im lặng vì không muốn tranh luận\" thường chỉ lộ ra SAU KHI triển khai — khi giải pháp gặp khó khăn, nhóm có \"đồng thuận thực sự\" sẽ cùng tìm cách vượt qua, còn nhóm \"im lặng\" có thể dùng khó khăn đó như cái cớ để nói \"tôi đã biết cách này không ổn\".",
+ example:"Một nhóm quyết định chuyển sang công cụ quản lý dự án mới. Nếu quyết định được \"thông báo\" mà không có quá trình thảo luận, một số người có thể \"đồng ý\" (không phản đối công khai) nhưng âm thầm tiếp tục dùng công cụ cũ song song — về sau khi có vấn đề nhỏ với công cụ mới, họ dễ dàng nói \"tôi đã nghĩ công cụ này không phù hợp mà\" và quay lại công cụ cũ hoàn toàn. Một quá trình cho phép mọi người NÊU LO NGẠI trước khi quyết định (dù quyết định cuối có thể vẫn giống nhau) thường tạo ra cam kết bền hơn khi gặp khó khăn ban đầu."},
+
+{cat:"trienkhai", vi:"Giao tiếp giải pháp", en:"Communicating Solutions", short:"Cách một giải pháp được TRÌNH BÀY cho người khác (đặc biệt người không tham gia vào quá trình tìm ra nó) ảnh hưởng lớn đến việc nó được hiểu đúng, được chấp nhận, và được thực hiện đúng cách.",
+ detail:"Người đề xuất giải pháp thường đã trải qua một quá trình dài (định khung, phân tích, thử nhiều hướng) — và có xu hướng chỉ trình bày KẾT QUẢ CUỐI (\"chúng ta nên làm X\") mà bỏ qua NGỮ CẢNH (vấn đề là gì, vì sao các hướng khác không được chọn). Với người nghe KHÔNG có cùng ngữ cảnh đó, \"chúng ta nên làm X\" có thể nghe như một quyết định ĐỘC ĐOÁN — dù thực ra nó là kết quả của một quá trình phân tích kỹ lưỡng. Trình bày kèm NGỮ CẢNH (vấn đề, các lựa chọn đã xem xét, vì sao X được chọn) giúp người nghe HIỂU và TIN TƯỞNG vào giải pháp, không chỉ \"nghe theo\".",
+ example:"Thay vì thông báo \"từ tháng sau, mọi báo cáo chi phí phải nộp qua app mới\" (kết quả cuối, không ngữ cảnh — dễ gây phản ứng \"tại sao lại thay đổi?\"), trình bày: \"Hiện tại, việc nộp báo cáo chi phí qua email mất trung bình 3 ngày để được duyệt, và 20% bị trả lại vì thiếu thông tin (vấn đề). Chúng tôi đã xem xét 3 lựa chọn... (các lựa chọn). App mới giảm thời gian duyệt xuống 1 ngày và tự động kiểm tra thông tin thiếu trước khi nộp (vì sao X được chọn). Từ tháng sau sẽ áp dụng, có hướng dẫn và hỗ trợ trong 2 tuần đầu.\" — cùng một thay đổi, nhưng người nghe hiểu ĐÂY LÀ LỜI GIẢI cho một vấn đề có thật, không phải một quy định tùy tiện."},
+
+{cat:"trienkhai", vi:"Tiến bộ hơn hoàn hảo", en:"Progress over Perfection", short:"Một giải pháp \"đủ tốt\" đang được TRIỂN KHAI và CẢI THIỆN DẦN thường tạo ra giá trị thực tế nhiều hơn một giải pháp \"hoàn hảo\" vẫn đang được THIẾT KẾ và chưa bao giờ ra đời.",
+ detail:"Chủ nghĩa hoàn hảo trong giải quyết vấn đề có thể trở thành một dạng TRÌ HOÃN — \"chưa triển khai vì còn một vài điểm chưa hoàn thiện\" có thể kéo dài vô hạn, vì LUÔN có thể tìm ra \"một điểm chưa hoàn thiện\" khác. Trong khi đó, một phiên bản \"đủ tốt\" được triển khai SẼ tạo ra giá trị NGAY (dù không tối ưu), và đồng thời tạo ra THÔNG TIN THỰC TẾ để cải thiện — một lợi ích mà phiên bản \"hoàn hảo trên giấy\" không bao giờ có được cho đến khi nó (có thể là không bao giờ) hoàn thành.",
+ example:"Một nhóm dành 6 tháng thiết kế một quy trình onboarding nhân viên mới \"hoàn hảo\" — bao quát mọi tình huống có thể — nhưng chưa triển khai vì \"còn vài trường hợp đặc biệt chưa xử lý\". Trong 6 tháng đó, hàng chục nhân viên mới vẫn trải qua quy trình CŨ (kém). Nếu thay vào đó, một phiên bản \"đủ tốt\" (xử lý 80% trường hợp phổ biến) được triển khai từ tháng đầu, hàng chục nhân viên đó đã có trải nghiệm tốt hơn — và 20% trường hợp đặc biệt còn lại có thể được xử lý dần dựa trên các trường hợp THỰC TẾ gặp phải, thay vì cố \"đoán trước\" mọi khả năng."},
+
+{cat:"trienkhai", vi:"Ghi chép quá trình", en:"Documentation of Process", short:"Ghi lại KHÔNG CHỈ giải pháp cuối cùng, mà cả: vấn đề ban đầu, các lựa chọn đã xem xét (và vì sao bị loại), giả định đã đưa ra, và lý do dẫn đến quyết định cuối — để người khác (và bản thân trong tương lai) hiểu được \"tại sao\" chứ không chỉ \"cái gì\".",
+ detail:"Khi chỉ ghi lại giải pháp CUỐI (\"chúng ta làm X\") mà không ghi NGỮ CẢNH, vài năm sau (hoặc khi có người mới), X có thể bị coi là \"luật bất biến\" mà không ai nhớ TẠI SAO — dẫn đến việc giữ X dù bối cảnh đã thay đổi (xem \"thiên kiến hiện trạng\"), hoặc thay đổi X mà vô tình bỏ qua một ràng buộc quan trọng đã dẫn đến X ban đầu (vì ràng buộc đó không được ghi lại).",
+ example:"Một quy định nội bộ \"không cho phép gửi file qua email, phải dùng hệ thống chia sẻ nội bộ\" được áp dụng nhiều năm. Không ai còn nhớ lý do — và quy định này gây bất tiện cho nhân viên mới chưa quen hệ thống. Nếu khi đặt ra quy định, có ghi chú \"vì hệ thống email cũ có giới hạn dung lượng 5MB, gây ra nhiều sự cố gửi thiếu file\" — thì khi hệ thống email được nâng cấp (không còn giới hạn này) nhiều năm sau, mọi người có thể dễ dàng nhận ra lý do của quy định đã KHÔNG CÒN, và xem xét bỏ quy định — thay vì giữ nó \"vì nó luôn ở đó\"."},
+
+{cat:"trienkhai", vi:"Chuyển giao kiến thức", en:"Knowledge Transfer", short:"Đảm bảo rằng hiểu biết về vấn đề và giải pháp KHÔNG chỉ tồn tại trong đầu của (những) người trực tiếp giải quyết — để khi họ vắng mặt/nghỉ việc, kiến thức đó không \"biến mất\" cùng họ.",
+ detail:"Một rủi ro thường bị bỏ qua: giải pháp \"hoạt động tốt\" có thể chỉ vì NGƯỜI tạo ra nó vẫn còn ở đó để \"vá\" những vấn đề nhỏ phát sinh — và sự phụ thuộc này không hiện rõ cho đến khi người đó nghỉ/chuyển việc, và \"giải pháp tốt\" đột nhiên bắt đầu gặp vấn đề mà không ai biết cách xử lý. Chuyển giao kiến thức không chỉ là \"viết tài liệu\" — mà còn là đảm bảo có ÍT NHẤT một người KHÁC hiểu đủ sâu để xử lý các tình huống không lường trước, không chỉ làm theo hướng dẫn từng bước.",
+ example:"Một nhân viên tự xây dựng một file Excel phức tạp để tính lương, với nhiều công thức \"chỉ anh ấy hiểu\". Quy trình \"hoạt động tốt\" trong nhiều năm — cho đến khi anh ấy nghỉ việc đột ngột, và không ai trong phòng nhân sự hiểu được các công thức để SỬA khi có một trường hợp lương đặc biệt (nhân viên nghỉ giữa tháng, có phụ cấp đặc biệt...). Một buổi \"chuyển giao\" 30 phút trước đó — không cần viết tài liệu hoàn chỉnh, chỉ cần một người khác NGỒI CÙNG và hiểu LOGIC chung của các công thức — có thể tránh được một cuộc khủng hoảng tính lương sau này."},
+
+{cat:"trienkhai", vi:"Đóng vòng phản hồi", en:"Closing the Loop", short:"Sau khi triển khai, quay lại với những người đã NÊU vấn đề/góp ý ban đầu, cho họ biết kết quả — kể cả khi kết quả là \"chúng tôi đã xem xét nhưng không thực hiện đề xuất của bạn, vì...\"",
+ detail:"Khi một người góp ý/báo cáo vấn đề và sau đó KHÔNG NGHE THẤY GÌ THÊM, họ thường mặc định một trong hai điều: \"không ai quan tâm\" hoặc \"vấn đề đã được giải quyết\" — cả hai có thể SAI, và cả hai đều làm giảm khả năng họ tiếp tục góp ý trong tương lai (\"góp ý cũng chẳng ai phản hồi\"). Đóng vòng phản hồi — dù chỉ là một câu ngắn — duy trì sự tin tưởng rằng quá trình giải quyết vấn đề là một HỆ THỐNG HOẠT ĐỘNG, không phải một \"hộp đen\" nuốt mọi góp ý mà không có gì xảy ra.",
+ example:"Một khách hàng phàn nàn về một lỗi trên website. Vài tuần sau, lỗi đã được sửa — nhưng nếu không ai báo lại cho khách hàng đó, họ không biết, và có thể vẫn nghĩ \"công ty này không quan tâm đến phản hồi\" (dù thực ra đã xử lý). Một email ngắn: \"Cảm ơn bạn đã báo lỗi X — chúng tôi đã khắc phục vào ngày Y\" — không chỉ làm khách hàng đó hài lòng, mà còn tăng khả năng họ tiếp tục góp ý trong tương lai, vì họ thấy góp ý của mình CÓ TÁC DỤNG."},
+
+{cat:"trienkhai", vi:"Văn hóa giải quyết vấn đề", en:"Problem-Solving Culture", short:"Cách một tổ chức/nhóm PHẢN ỨNG khi có vấn đề xuất hiện — đổ lỗi và che giấu, hay coi đó là cơ hội học hỏi và cải thiện hệ thống — quyết định liệu các kỹ thuật giải quyết vấn đề (dù tốt đến đâu) có thực sự được SỬ DỤNG hay không.",
+ detail:"Mọi kỹ thuật trong bộ sưu tập này (5 Whys, pre-mortem, A3...) đều giả định một điều kiện ngầm: rằng việc THỪA NHẬN có vấn đề, NÊU RA giả thuyết có thể sai, hoặc THỬ một giải pháp có thể thất bại — đều được coi là BÌNH THƯỜNG, không phải điều gì đó cần che giấu vì sợ bị đánh giá/kỷ luật. Trong một văn hóa \"đổ lỗi\" (nơi việc \"có vấn đề\" = \"có ai đó phải chịu trách nhiệm/bị phạt\"), mọi kỹ thuật phân tích nguyên nhân sẽ tự nhiên bị BÓP MÉO thành quá trình \"tìm ai để đổ lỗi\" — thay vì \"tìm ra điều gì đang xảy ra trong hệ thống\".",
+ example:"Hai nhà máy có cùng một sự cố sản xuất. Nhà máy A: quản lý hỏi \"AI gây ra lỗi này?\" — công nhân liên quan sợ bị phạt, nên cố giải thích theo cách giảm trách nhiệm cá nhân, thông tin bị bóp méo, nguyên nhân thực sự khó được tìm ra. Nhà máy B: quản lý hỏi \"ĐIỀU GÌ trong quy trình/hệ thống đã cho phép lỗi này xảy ra, và làm sao để hệ thống tự phát hiện lỗi tương tự sớm hơn trong tương lai?\" — công nhân thoải mái chia sẻ chi tiết (kể cả phần họ \"có thể đã làm khác\"), vì câu hỏi tập trung vào HỆ THỐNG, không phải CÁ NHÂN. Nhà máy B có khả năng tìm ra và xử lý nguyên nhân gốc cao hơn nhiều — không phải vì có công cụ phân tích tốt hơn, mà vì VĂN HÓA cho phép công cụ đó hoạt động đúng cách."},
+];
+
+// Build category lookup for color
+const CAT_MAP = {};
+CATS.forEach(c => CAT_MAP[c.key] = c);
+
+// Render chips
+const chipsEl = document.getElementById('chips');
+let activeCat = 'all';
+
+function renderChips(){
+  chipsEl.innerHTML = '';
+  const allChip = document.createElement('div');
+  allChip.className = 'chip' + (activeCat==='all' ? ' active':'');
+  allChip.innerHTML = `<span class="dot" style="--dotcolor:#999"></span> Tất cả`;
+  allChip.onclick = () => { activeCat='all'; renderChips(); renderGrid(); };
+  chipsEl.appendChild(allChip);
+
+  CATS.forEach(c => {
+    const chip = document.createElement('div');
+    chip.className = 'chip' + (activeCat===c.key ? ' active':'');
+    chip.style.setProperty('--dotcolor', c.color);
+    chip.innerHTML = `<span class="dot"></span> ${c.label}`;
+    chip.onclick = () => { activeCat=c.key; renderChips(); renderGrid(); };
+    chipsEl.appendChild(chip);
+  });
+}
+
+// Render grid
+const gridEl = document.getElementById('grid');
+const noResultsEl = document.getElementById('noResults');
+const countRowEl = document.getElementById('countRow');
+let filtered = [];
+
+function renderGrid(){
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  filtered = DATA.map((d,i)=>({...d, idx:i})).filter(d => {
+    const matchCat = activeCat==='all' || d.cat===activeCat;
+    const text = (d.vi + ' ' + d.en + ' ' + d.short + ' ' + d.detail).toLowerCase();
+    const matchQ = q==='' || text.includes(q);
+    return matchCat && matchQ;
+  });
+
+  gridEl.innerHTML = '';
+  if(filtered.length===0){
+    noResultsEl.style.display='block';
+  } else {
+    noResultsEl.style.display='none';
+  }
+
+  filtered.forEach((d, displayIdx) => {
+    const cat = CAT_MAP[d.cat];
+    const card = document.createElement('button');
+    card.className = 'card';
+    card.style.setProperty('--cardcolor', cat.color);
+    card.innerHTML = `
+      <div class="card-top">
+        <span class="num">#${String(d.idx+1).padStart(3,'0')}</span>
+        <span class="cat-tag">${cat.label}</span>
+      </div>
+      <h3>${d.vi}<span class="en">${d.en}</span></h3>
+      <p>${d.short}</p>
+      <div class="read">Xem chi tiết
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>`;
+    card.onclick = () => openModal(displayIdx);
+    gridEl.appendChild(card);
+  });
+
+  countRowEl.textContent = `Hiển thị ${filtered.length} / ${DATA.length} khái niệm`;
+}
+
+// Modal
+const overlay = document.getElementById('overlay');
+const modal = overlay.querySelector('.modal');
+let currentIdx = 0;
+
+function openModal(displayIdx){
+  currentIdx = displayIdx;
+  showCurrent();
+  overlay.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function showCurrent(){
+  const d = filtered[currentIdx];
+  const cat = CAT_MAP[d.cat];
+  modal.style.setProperty('--modalcolor', cat.color);
+  document.getElementById('mCat').textContent = `${cat.label} · #${String(d.idx+1).padStart(3,'0')}`;
+  document.getElementById('mName').textContent = d.vi;
+  document.getElementById('mEn').textContent = d.en;
+  document.getElementById('mDetail').textContent = d.detail;
+  document.getElementById('mExample').textContent = d.example;
+  modal.scrollTop = 0;
+  document.getElementById('mPrev').style.visibility = currentIdx>0 ? 'visible':'hidden';
+  document.getElementById('mNext').style.visibility = currentIdx<filtered.length-1 ? 'visible':'hidden';
+}
+
+function closeModal(){
+  overlay.classList.remove('open');
+  document.body.style.overflow='';
+}
+
+document.getElementById('mClose').onclick = closeModal;
+overlay.onclick = (e) => { if(e.target===overlay) closeModal(); };
+document.getElementById('mPrev').onclick = () => { if(currentIdx>0){ currentIdx--; showCurrent(); } };
+document.getElementById('mNext').onclick = () => { if(currentIdx<filtered.length-1){ currentIdx++; showCurrent(); } };
+
+document.addEventListener('keydown', (e) => {
+  if(!overlay.classList.contains('open')) return;
+  if(e.key==='Escape') closeModal();
+  if(e.key==='ArrowLeft' && currentIdx>0){ currentIdx--; showCurrent(); }
+  if(e.key==='ArrowRight' && currentIdx<filtered.length-1){ currentIdx++; showCurrent(); }
+});
+
+document.getElementById('search').addEventListener('input', renderGrid);
+
+renderChips();
+renderGrid();
+</script>
+</body>
+</html>
